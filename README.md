@@ -1,2 +1,2 @@
 # justSport
-Software Engeneering's Project
+Software Engineering Project
