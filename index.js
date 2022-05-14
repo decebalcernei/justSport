@@ -18,6 +18,10 @@ app.get('/', (req, res) => {
 	res.send("Homepage");
 });
 
+// Import Routes
+const annunciRoutes = require('./routes/annunci');
+app.use('/annunci', annunciRoutes);
+
 //Connect to db
 mongoose.connect(process.env.DB_CONNECTION, () => {
 	console.log('Connected to db!');
