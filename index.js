@@ -19,8 +19,11 @@ app.get('/', (req, res) => {
 });
 
 //Connect to db
-mongoose.connect(process.env.DB_CONNECTION, () => {
-	console.log('Connected to db!');
+mongoose.connect(process.env.DB_CONNECTION, (res) => {
+	if (!res)
+		console.log("connected to db");
+	else
+		console.log("encountered an error: ", res);
 });
 
 app.listen(3000);
