@@ -33,6 +33,8 @@ app.get('/', (req, res) => {
 
 // Import Routes
 const annunciRoutes = require('./api/v1/annunci');
+const utentiRoutes = require('./api/v1/utenti');
+app.use('/utenti', utentiRoutes);
 app.use('/annunci', annunciRoutes);
 
 //Connect to db
