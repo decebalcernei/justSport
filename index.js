@@ -11,17 +11,17 @@ const path = require("path");
 const app = express();
 
 // Middleware
-app.use(bodyParser.json()); // per processare il body della richiesta
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
 app.use(cors()); // per evitare errore cors domain (da un domain diverso non posso accedere alle API)
-
-// console.log("hello develop branch");
 
 app.set("views", path.join(__dirname, "/views/"));
 
 app.engine("hbs", expressHandlebars.engine({
-    extname : "hbs",
-    dafaultLayout : "mainlayout",
-    layoutsDir : __dirname + "/views/layouts"
+	extname: "hbs",
+	dafaultLayout: "mainlayout",
+	layoutsDir: __dirname + "/views/layouts"
 }));
 
 app.set("view engine", "hbs")
@@ -33,7 +33,6 @@ app.get('/', (req, res) => {
 
 // Import Routes
 const annunciRoutes = require('./routes/annunci');
-const { application } = require('express');
 app.use('/annunci', annunciRoutes);
 
 //Connect to db

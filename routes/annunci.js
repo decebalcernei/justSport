@@ -14,22 +14,21 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get("/add", (req, res)=>{
+router.get("/add", (req, res) => {
     res.render("../views/add-annuncio")
 })
 
-router.post("/add", (req, res)=>{
-    var course = new Annuncio();
-    course.partecipanti = req.body.partecipanti;
-    course.attrezzatura_necessaria = req.body.attrezzatura_necessaria;
-    course.costo = req.body.costo;
-    course.data = Math.ceil(Math.random() * 1000) + "";
+router.post("/add", (req, res) => {
+    var annuncio = new Annuncio();
+    annuncio.partecipanti = req.body.partecipanti;
+    annuncio.attrezzatura_necessaria = req.body.attrezzatura_necessaria;
+    annuncio.costo = req.body.costo;
+    annuncio.citta = req.body.citta;
 
-    course.save((err, doc)=>{
-        if(!err){
-            res.redirect("/annunci/list")
-        }
-        else{
+    annuncio.save((err, doc) => {
+        if (!err) {
+            res.redirect("/annunci")
+        } else {
             res.send(err)
         }
     })
