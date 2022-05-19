@@ -5,6 +5,13 @@ const AnnuncioSchema = mongoose.Schema({
 		type: Array,
 		required: true
 	},
+	min_partecipanti: {
+		type: Number,
+		default: 2
+	},
+	max_partecipanti: {
+		type: Number,
+	},
 	attrezzatura_necessaria: {
 		type: Boolean,
 		required: true

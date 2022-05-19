@@ -10,30 +10,28 @@ router.get('/', async (req, res) => {
     } catch (err) {
         res.json({
             message: err
-        })
+        });
     }
 });
 
-router.get("/add", (req, res)=>{
-    res.render("../views/add-annuncio")
+router.get("/add", (req, res) => {
+    res.render("../views/add-annuncio");
 })
 
-router.post("/add", (req, res)=>{ // url come risorse
+router.post("/add", (req, res) => { // url come risorse
     var annuncio = new Annuncio({
-        partecipanti: req.body.partecipanti,
+        min_partecipanti: req.body.min_partecipanti,
+        max_partecipanti: req.body.max_partecipanti,
         attrezzatura_necessaria: req.body.attrezzatura_necessaria,
         costo: req.body.costo,
         citta: req.body.citta,
     });
-    console.log(req.body);
 
-    annuncio.save((err, doc)=>{
-        if(!err){
-            res.redirect("/annunci")
-        }
-        else{
-            res.send(err)
-        }
+    annuncio.save((err, doc) => {
+        if (!err)
+            res.redirect("/annunci");
+        else
+            res.send(err);
     })
 })
 

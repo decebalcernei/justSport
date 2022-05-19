@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 });
 
 // Import Routes
-const annunciRoutes = require('./routes/annunci');
+const annunciRoutes = require('./api/v1/annunci');
 app.use('/annunci', annunciRoutes);
 
 //Connect to db
