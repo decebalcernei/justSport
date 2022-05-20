@@ -17,20 +17,22 @@ router.get('', async (req, res) => {
 
 // Inserimento utente
 router.post('/', async (req, res) => {
+
     const utente = new Utente({
         username: req.body.username,
         password: req.body.password
     });
     console.log(req.body);
     console.log(utente);
-    try{
-    const utenteSalvato = await utente.save();
-    res.json(utenteSalvato)
-    }catch(err){
-        res.json({message: err})
+    try {
+        const utenteSalvato = await utente.save();
+        res.json(utenteSalvato)
+    } catch (err) {
+        res.json({
+            message: err
+        })
     }
 
 });
-
 
 module.exports = router;
