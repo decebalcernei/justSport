@@ -31,6 +31,40 @@ router.post("/:annuncioId", async (req, res) => {
 
         // iscrizione
 
+        // specificare l'annuncio
+        let query = {
+            "_id": req.params.annuncioId
+        };
+
+        // specificare l'utente
+        let updateDocument = {
+            $push: {
+                "partecipanti": req.body.id_utente
+            }
+        };
+
+        // aggiungere l'utente ai partecipanti dell'annuncio
+        let result = await Annuncio.updateOne(query, updateDocument);
+
+        console.log(result);
+
+        // specificare l'utente
+        query = {
+            "_id": req.body.id_utente
+        };
+
+        // specificare l'annuncio
+        updateDocument = {
+            $push: {
+                "iscrizione_annunci": req.params.annuncioId
+            }
+        };
+
+        // aggiungere l'annuncio alla lista di annunci a cui l'utente e' iscritto
+        result = await Utente.updateOne(query, updateDocument);
+
+        console.log(result);
+
         res.render("annuncio", {
             data: annuncio.toJSON()
         });
