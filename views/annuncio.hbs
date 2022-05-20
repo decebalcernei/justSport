@@ -1,0 +1,16 @@
+<div id="annuncio">
+	<p>min_partecipanti = {{{data.min_partecipanti}}}</p>
+	<p>max_partecipanti = {{{data.max_partecipanti}}}</p>
+	<p>costo = {{{data.costo}}}</p>
+
+	<form method="post" id="form-iscrizione">
+		<p>
+			<label>id utente</label><input value="" name="id_utente">
+			<button type="submit">Iscriviti</button>
+		</p>
+	</form>
+</div>
+
+<script>
+	document.getElementById("form-iscrizione").action = "/annunci/:" + data.id;
+</script>
