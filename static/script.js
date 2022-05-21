@@ -117,7 +117,7 @@ function loadAnnunci() {
                 let li = document.createElement('li');
                 let span = document.createElement('span');
                 let a = document.createElement('a');
-                a.href = annuncio.self
+                a.href = "/annunci/" + annuncio._id;
                 a.textContent = annuncio.citta;
 
                 // Append all our elements
