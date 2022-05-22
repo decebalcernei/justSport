@@ -118,7 +118,10 @@ function loadAnnunci() {
                 let span = document.createElement('span');
                 let a = document.createElement('a');
                 a.href = "/annunci/" + annuncio._id;
-                a.textContent = annuncio.citta;
+                if (!annuncio.sport)
+                    a.textContent = annuncio.citta;
+                else
+                    a.textContent = annuncio.sport;
 
                 // Append all our elements
                 span.appendChild(a);

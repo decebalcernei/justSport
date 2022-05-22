@@ -17,6 +17,7 @@ router.get('', async (req, res) => {
 
 router.post('', (req, res) => { // url come risorse
     var annuncio = new Annuncio({
+        sport: req.body.sport,
         min_partecipanti: req.body.min_partecipanti,
         max_partecipanti: req.body.max_partecipanti,
         attrezzatura_necessaria: req.body.attrezzatura_necessaria,

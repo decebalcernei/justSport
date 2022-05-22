@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const AnnuncioSchema = mongoose.Schema({
+	sport: {
+		type: String,
+		required: true
+	},
 	partecipanti: {
 		type: Array,
 		required: true
