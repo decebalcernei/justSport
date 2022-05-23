@@ -1,49 +1,31 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-</head>
+  <head>
+    <title>Just Sport - Home</title>
+  </head>
 
-<body>
-
-<h1>Just Sport</h1>
-
-<form action="/utenti" method="post" name="loginform" id="loginform">
-  <span>Registrati:</span>
-  <input name="username" value="" id="username"/>
-  <input name="password" value="" id="password"/>
-  <button type="button" onclick="login()">LogIn</button>
-</form>
-
-<form action="/annunci" method="post">
-  <span>Aggiungi Annuncio:</span>
-      <label>Partecipanti minimi</label><input value="" id="min_partecipanti">
-      <label>Partecipanti massimi</label><input value="" id="max_partecipanti"></br>
-      <label>Attrezzatura Necessaria</label><input value="" id="attrezzatura_necessaria"></br>
-      <label>Costo</label><input value="" id="costo"></br>
-      <label>Città</label><input value="" id="citta"></br>
-      <button type="button" onclick="add()">Aggiungi Annuncio</button>
-</form>
-
-<h2>Icriviti ad annuncio:</h2>
-<div id="icrizione_annuncio">
-	<form action="/annunci/" method="post">
-		<p>
-      <label>id annuncio</label><input value="" id="id_annuncio">
-      <label>id utente</label><input value="" id="id_utente">
-			<button type="button" onclick="subscribe()">Iscriviti</button>
-		</p>
-	</form>
-</div>
-
-
-<h2>Annunci:</h2>
-<ul id="annunci"></ul>
-
-<ul id="bookLendings"></ul>
-
-<script src="script.js"></script> 
-    
-</body>
-
+  <body>
+    <center>
+      <h1>Just Sport</h1>
+    </center>
+    <center>
+      <p>
+          Sei pregato di inserire un utente e una password per procedere
+          con la registrazione
+      </p>
+      </center>
+      <center>
+      <form action="/utenti" method="post" name="loginform" id="loginform">
+          <span>Registrati:</span>
+          <input name="username" value="" id="username"/>
+          <input name="password" value="" id="password"/>
+          <button type="button" onclick="login()">LogIn</button>
+        </form>
+      </center>
+      <center>
+        <a href="visualizzazione_annunci.html">Vai alla pagina degli annunci</a>
+      </center>
+  <script src="script.js"></script> 
+  </body>
 </html>

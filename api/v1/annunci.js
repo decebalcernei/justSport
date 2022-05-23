@@ -16,6 +16,7 @@ router.get('', async (req, res) => {
 });
 
 router.post('', (req, res) => { // url come risorse
+    console.log(req.body);
     var annuncio = new Annuncio({
         min_partecipanti: req.body.min_partecipanti,
         max_partecipanti: req.body.max_partecipanti,

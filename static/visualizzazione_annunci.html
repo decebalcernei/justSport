@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<style type="text/css">
+   
+</style>
+
+
+
+<html>
+    <head> 
+        <center>
+            <h1>Pagina degli annunci</h1>
+        </center>
+        <title>Pagina Annunci</title>
+    </head>
+
+    <body>
+        <a href="index.html">Home</a>
+        <center>
+        <p>
+            In questa pagina sono presenti tutti gli annunci pubblicati. Non &#200 possibile filtrare per sport al momento
+        </p>
+
+        <h2>Annunci:</h2>
+
+        <ul id="annunci"></ul>
+
+
+        <h2>Icriviti ad un annuncio:</h2>
+        <div id="icrizione_annuncio">
+            <form action="/annunci/" method="post">
+                <p>
+                    <label>Id annuncio</label><input value="" id="id_annuncio"></br>
+                    <label>Id utente</label><input value="" id="id_utente"></br>
+                    <button type="button" onclick="subscribe()">Iscriviti</button>
+                </p>
+            </form>
+        </div>
+        </center>
+        <center>
+            <a href="inserimento_annunci.html">Inserisci un tuo annuncio</a>
+        </center>
+    </body>
+    <script src="script.js"></script>
+</html>

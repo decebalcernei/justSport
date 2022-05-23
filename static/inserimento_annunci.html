@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<style type="text/css">
+ td {
+    text-align: left;
+ }
+</style>
+
+<html>
+    <head> 
+        <center>
+            <h1>Crea Annuncio</h1>
+        </center>
+        <title>Nuovo Annuncio</title>
+    </head>
+
+    <body>
+        <a href="index.html">Home</a>
+        <center>
+            <table>
+                <form action="/annunci" method="post">
+                    <tr>
+                        <span>Aggiungi Annuncio:</span>
+                        <td>
+                            <label>Partecipanti minimi</label>
+                        </td>
+                        <td>
+                            <input value="" id="min_partecipanti">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Partecipanti massimi</label>
+                        </td>
+                        <td>
+                            <input value="" id="max_partecipanti">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Attrezzatura Necessaria</label>
+                        </td>
+                        <td>
+                            <select value="" id="attrezzatura_necessaria">
+                                <option value="false">No</option>
+                                <option value="true">Si</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Costo</label>
+                        </td>
+                        <td>
+                            <input value="" id="costo">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Città</label>
+                        </td>
+                        <td>
+                            <select value="" id="citta">
+                                <option value="ancona">Ancona</option>
+                                <option value="bolzano">Bolzano</option>
+                                <option value="brescia">Brescia</option>
+                                <option value="milano">Milano</option>
+                                <option value="tornino">Torino</option>
+                                <option value="trento">Trento</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Sport</label>
+                        </td>
+                        <td>
+                            <select value="" id="sport">
+                                <option value="atletica">Atletica</option>
+                                <option value="baseball">Baseball</option>
+                                <option value="basket">Basket</option>
+                                <option value="calcio">Calcio</option>
+                                <option value="danza">Danza</option>
+                                <option value="hockey">Hockey</option>
+                                <option value="sci">Sci</option>
+                                <option value="tennis">Tennis</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <button type="submit">Aggiungi Annuncio</button>
+                </form>
+            </table>
+            
+        </center>
+        <script src="script.js"></script> 
+    </body>
+</html>
