@@ -1,0 +1,64 @@
+FORMAT: 1A
+HOST: https://polls.apiblueprint.org/
+
+# annunci
+
+Ci permette di interagire con gli annunci
+
+## Collezione annunci [/annunci]
+
+### Mostrare tutti gli annunci [GET]
+Mostrare tutti gli annunci disponibili.
+
++ Response 201 (application/json)
+    [
+        {
+            "_id": "628bf2a29c6b6502e921e276",
+            "sport": "Hockey",
+            "partecipanti": [],
+            "min_partecipanti": 3,
+            "max_partecipanti": 14,
+            "attrezzatura_necessaria": true,
+            "costo": 5,
+            "citta": "Trento",
+            "data": "2022-05-23T20:46:26.783Z",
+            "__v": 0
+        }
+    ]
+
+### Inserire un nuovo annuncio [POST]
+
+Prende in input un oggetto JSON che contiene i campi necessari,
+restituisce una stringa contenente l'id dell'annuncio appena creato
+se l'operazione è avvenuta con successo
+
++ Request (application/json)
+
+    {
+        "min_partecipanti": 6,
+        "max_partecipanti": 10,
+        "attrezzatura_necessaria": false,
+        "costo": 2,
+        "citta": "Trento",
+        "sport": "Sci"
+    }
+
++ Response 202 (application/json)
+        "628bf112c5cf682262fbf999"
+        
+        
+
+
+### Iscriversi ad un annuncio (/utenti/:id) [POST]
+
+Prende in input un oggetto JSON che contiene l'id dell'utente e restituisce
+la stringa "success" se l'oprazione ha avuto successo
+
++ Request (application/json)
+
+    {
+        "id_utente": "6286544bef00f06435509a4c"
+    }
+
++ Response 210 (application/json)
+        "success"
