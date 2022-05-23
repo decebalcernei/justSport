@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Utente = require('../../models/Utente'); // ci serve per interagire con il db
 
-// Get all users
+// Restituisce tutti gli utenti (per ora usata solo per testing)
 router.get('', async (req, res) => {
     try {
         const utenti = await Utente.find();
@@ -22,8 +22,6 @@ router.post('/', async (req, res) => {
         username: req.body.username,
         password: req.body.password
     });
-    console.log(req.body);
-    console.log(utente);
     try {
         const utenteSalvato = await utente.save();
         res.json(utenteSalvato)

@@ -1,40 +1,7 @@
-/**
- * This variable stores the logged in user
+/*
+ * La funzione subscribe viene chiamata ogni volta che si preme il pulsante
+ * questa non fa altro che aggiungere un utente al db  
  */
-var loggedUser = {};
-
-/**
- * This function is called when login button is pressed.
- * Note that this does not perform an actual authentication of the user.
- * A student is loaded given the specified email,
- * if it exists, the studentId is used in future calls.
- */
-function login() {
-    //get the form object
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    // console.log(email);
-
-    fetch('../utenti', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password
-            }),
-        })
-        .then((resp) => resp.json()) // Transform the data into json
-        .then(function (data) { // Here you get the data to modify as you please
-            console.log(data);
-            return;
-        })
-        .catch(error => console.error(error)); // If there is any error you will catch them here
-
-};
-
-
 function subscribe() {
 
     var id_utente = document.getElementById("id_utente").value;
@@ -50,23 +17,23 @@ function subscribe() {
                 id_utente: id_utente
             }),
         })
-        .then((resp) => resp.json()) // Transform the data into json
-        .then(function (data) { // Here you get the data to modify as you please
+        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then(function (data) { // Data da manipolare come vogliamo
             console.log('Iscrizione effettuata correttamente :)');
-            loadAnnunci();
             return;
         })
-        .catch(error => console.error(error)); // If there is any error you will catch them here
-
-
+        .catch(error => console.error(error)); // Catturiamo eventuali errori
 
 
 }
 
-
+/*
+ * La funzione add viene chiamata ogni volta che si preme il pulsante
+ * questa aggiunge un nuovo annuncio al db 
+ */
 function add() {
 
-    //get the form object
+    // prendiamo gli elementi del form
     var min_partecipanti = document.getElementById("min_partecipanti").value;
     var max_partecipanti = document.getElementById("max_partecipanti").value;
     var attrezzatura_necessaria = document.getElementById("attrezzatura_necessaria").value;
@@ -74,7 +41,7 @@ function add() {
     var citta = document.getElementById("citta").value;
     var sport = document.getElementById("sport").value;
 
-    console.log('lancio fetch');
+
     fetch('../annunci', {
             method: 'POST',
             headers: {
@@ -89,36 +56,35 @@ function add() {
                 sport: sport
             }),
         })
-        .then((resp) => resp.json()) // Transform the data into json
-        .then(function (data) { // Here you get the data to modify as you please
-            console.log('Annuncio aggiunto correttamente :)');
+        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then(function (data) { // Abbiamo data, che possiamo manipolare
             return;
         })
-        .catch(error => console.error(error)); // If there is any error you will catch them here
+        .catch(error => console.error(error));
 
 }
 
-/**
- * This function refresh the list of books
+/*
+ * La funzione loadAnnunci non fa altro che "richiedere" la lista di tutti 
+ * gli annunci e farli vedere
  */
 function loadAnnunci() {
 
-    const ul = document.getElementById('annunci'); // Get the list where we will place our authors
+    const ul = document.getElementById('annunci'); // Dove andremo a mostrare gli annunci
 
     ul.textContent = '';
 
     fetch('../annunci')
-        .then((resp) => resp.json()) // Transform the data into json
-        .then(function (data) { // Here you get the data to modify as you please
+        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then(function (data) { // Abbiamo data, che possiamo manipolare
 
-            console.log(data);
-            return data.map(function (annuncio) { // Map through the results and for each run the code below
-
+            return data.map(function (annuncio) { // Trasformiamo l'oggetto risposta in una mappa
+                console.log(annuncio._id);
 
                 let li = document.createElement('li');
                 let span = document.createElement('span');
                 let a = document.createElement('a');
-                a.href = "/annunci/" + annuncio._id;
+                a.href = "annuncio.html?id_annuncio="+annuncio._id;
                 if (!annuncio.sport)
                     a.textContent = annuncio.citta;
                 else
@@ -131,6 +97,34 @@ function loadAnnunci() {
             })
 
         })
-        .catch(error => console.error(error)); // If there is any error you will catch them here
+        .catch(error => console.error(error)); // Catturiamo eventuali errori
+
+}
+
+/*
+ * La funzione detailAnnuncio mostra informazioni riguardanti l'annuncio scelto 
+ */
+function detailAnnuncio(id_annuncio) {
+    const ul = document.getElementById('annuncio');
+
+    ul.textContent = '';
+
+    fetch('../annunci/' + id_annuncio,)
+        .then((resp) => resp.json())
+        .then(function (data) {
+            console.log(data);
+            console.log(data.citta);
+
+            let li = document.createElement('li');
+            let span = document.createElement('span');
+            let p = document.createElement('p');
+            let citta = document.createTextNode("città: " + data.citta);
+            p.appendChild(citta);
+            span.appendChild(p);
+            li.appendChild(span);
+            ul.appendChild(li);
+
+        })
+        .catch(error => console.error(error)); // Catturiamo eventuali errori
 
 }

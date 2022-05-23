@@ -3,7 +3,7 @@ const router = express.Router();
 const Annuncio = require('../../models/Annuncio'); // ci serve per interagire con il db
 const Utente = require('../../models/Utente');
 
-// Get all posts
+// Restituisce tutti gli annunci
 router.get('', async (req, res) => {
     try {
         const annunci = await Annuncio.find();
@@ -15,7 +15,8 @@ router.get('', async (req, res) => {
     }
 });
 
-router.post('', (req, res) => { // url come risorse
+// Aggiunge un nuovo annuncio
+router.post('', (req, res) => {
     console.log(req.body);
     var annuncio = new Annuncio({
         sport: req.body.sport,
@@ -41,6 +42,7 @@ router.post('', (req, res) => { // url come risorse
     });
 });
 
+// Iscrizione ad annuncio
 router.post("/:annuncioId", async (req, res) => {
     try {
         const utente = await Utente.findById(req.body.id_utente);
@@ -54,8 +56,6 @@ router.post("/:annuncioId", async (req, res) => {
 
         if (annuncio.partecipanti.length >= annuncio.max_partecipanti)
             throw "questo annuncio e' gia' pieno! impossibile iscriversi";
-
-        // iscrizione
 
         // specificare l'annuncio
         let query = {
@@ -102,7 +102,7 @@ router.post("/:annuncioId", async (req, res) => {
 });
 
 
-// Get a specific post
+// Restituisce uno specifico annuncio
 router.get('/:annuncioId', async (req, res) => {
     try {
         const annuncio = await Annuncio.findById(req.params.annuncioId);
