@@ -7,7 +7,7 @@ const Utente = require('../../models/Utente');
 router.get('', async (req, res) => {
     try {
         const annunci = await Annuncio.find();
-        res.json(annunci);
+        res.status(201).json(annunci);
     } catch (err) {
         res.json({
             message: err
@@ -36,7 +36,7 @@ router.post('', (req, res) => {
 
     annuncio.save((err, doc) => {
         if (!err)
-            res.redirect("/annunci");
+            res.status(202).json(annuncio._id);
         else
             res.send(err);
     });
@@ -89,11 +89,7 @@ router.post("/:annuncioId", async (req, res) => {
         // aggiungere l'annuncio alla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        console.log(result);
-
-        res.render("annuncio", {
-            data: annuncio.toJSON()
-        });
+        res.status(210).json("success");
     } catch (err) {
         res.json({
             message: err
@@ -106,7 +102,7 @@ router.post("/:annuncioId", async (req, res) => {
 router.get('/:annuncioId', async (req, res) => {
     try {
         const annuncio = await Annuncio.findById(req.params.annuncioId);
-        res.json(annuncio);
+        res.status(203).json(annuncio);
     } catch (err) {
         res.json({
             message: err

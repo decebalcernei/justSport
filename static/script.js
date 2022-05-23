@@ -19,10 +19,9 @@ function subscribe() {
         })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(function (data) { // Data da manipolare come vogliamo
-            console.log('Iscrizione effettuata correttamente :)');
             return;
         })
-        .catch(error => console.error(error)); // Catturiamo eventuali errori
+        .catch(error => console.error(error)); 
 
 
 }
