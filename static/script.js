@@ -57,11 +57,10 @@ function add() {
             }),
         })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
-        .then(function (data) { // Abbiamo data, che possiamo manipolare
-            return;
+        .then(() => {
+            window.location.href = "visualizzazione_annunci.html";
         })
         .catch(error => console.error(error));
-
 }
 
 /*
@@ -79,12 +78,10 @@ function loadAnnunci() {
         .then(function (data) { // Abbiamo data, che possiamo manipolare
 
             return data.map(function (annuncio) { // Trasformiamo l'oggetto risposta in una mappa
-                console.log(annuncio._id);
-
                 let li = document.createElement('li');
                 let span = document.createElement('span');
                 let a = document.createElement('a');
-                a.href = "annuncio.html?id_annuncio="+annuncio._id;
+                a.href = "annuncio.html?id_annuncio=" + annuncio._id;
                 if (!annuncio.sport)
                     a.textContent = annuncio.citta;
                 else
@@ -109,7 +106,7 @@ function detailAnnuncio(id_annuncio) {
 
     ul.textContent = '';
 
-    fetch('../annunci/' + id_annuncio,)
+    fetch('../annunci/' + id_annuncio, )
         .then((resp) => resp.json())
         .then(function (data) {
             console.log(data);
