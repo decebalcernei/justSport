@@ -72,8 +72,9 @@ function add() {
     var attrezzatura_necessaria = document.getElementById("attrezzatura_necessaria").value;
     var costo = document.getElementById("costo").value;
     var citta = document.getElementById("citta").value;
+    var sport = document.getElementById("sport").value;
 
-
+    console.log('lancio fetch');
     fetch('../annunci', {
             method: 'POST',
             headers: {
@@ -84,14 +85,13 @@ function add() {
                 max_partecipanti: max_partecipanti,
                 attrezzatura_necessaria: attrezzatura_necessaria,
                 costo: costo,
-                citta: citta
+                citta: citta,
+                sport: sport
             }),
         })
         .then((resp) => resp.json()) // Transform the data into json
         .then(function (data) { // Here you get the data to modify as you please
             console.log('Annuncio aggiunto correttamente :)');
-            console.log(id_annuncio);
-            loadAnnunci();
             return;
         })
         .catch(error => console.error(error)); // If there is any error you will catch them here
@@ -131,4 +131,3 @@ function loadAnnunci() {
         .catch(error => console.error(error)); // If there is any error you will catch them here
 
 }
-loadAnnunci();

@@ -23,6 +23,7 @@ router.post('', (req, res) => { // url come risorse
         attrezzatura_necessaria: req.body.attrezzatura_necessaria,
         costo: req.body.costo,
         citta: req.body.citta,
+        sport: req.body.sport
     });
 
     if (annuncio.min_partecipanti == null)
