@@ -6,13 +6,15 @@ const Utente = require("../../models/Utente");
 require('dotenv/config');
 
 router.post("", async (req, res) => {
+	console.log("here");
+
 	let user = await Utente.findOne({
 		username: req.body.username
 	}).exec();
 
 	if (!user)
 		res.json({
-			message: "user non esiste"
+			message: "utente non esiste"
 		});
 
 	if (user.password != req.body.password)

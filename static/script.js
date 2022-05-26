@@ -21,9 +21,36 @@ function subscribe() {
         .then(function (data) { // Data da manipolare come vogliamo
             return;
         })
-        .catch(error => console.error(error)); 
+        .catch(error => console.error(error));
 
 
+}
+
+function login() {
+
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    console.log(JSON.stringify({
+        username: username,
+        password: password
+    }));
+
+    fetch("../autenticazione", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    }).then((resp) => {
+        // response creata nel POST di autenticazione.js e' corretta...
+        // ma qua sembra essere vuota
+        console.log(JSON.stringify(resp.json));
+        resp.json();
+    }).catch(error => console.error(error));
 }
 
 /*
