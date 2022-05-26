@@ -14,11 +14,23 @@ app.use(cors()); // per evitare errore cors domain (da un domain diverso non pos
 app.use('/', express.static('static')); // expose static folder
 
 
+const controlloToken = require("./controllo_token");
+
 // Import Routes
-const annunciRoutes = require('./api/v1/annunci');
-const utentiRoutes = require('./api/v1/utenti');
-app.use('/utenti', utentiRoutes);
-app.use('/annunci', annunciRoutes);
+const annunciRoutes = require('./api/v2/annunci');
+const utentiRoutes = require('./api/v2/utenti');
+const autenticazioneRoutes = require("./api/v2/autenticazione");
+
+// routes per cui serve il token (middleware)
+app.use('/utenti', controlloToken);
+app.use('/annunci', controlloToken);
+
+// autenticazione
+app.use("/autenticazione", autenticazioneRoutes);
+
+// accedere alle risorse
+app.use("/utenti", utentiRoutes);
+app.use("/annunci", annunciRoutes);
 
 //Connect to db
 mongoose.connect(process.env.DB_CONNECTION, (res) => {
