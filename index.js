@@ -28,4 +28,6 @@ mongoose.connect(process.env.DB_CONNECTION, (res) => {
 		console.log("encountered an error: ", res);
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
 app.listen(3000);
