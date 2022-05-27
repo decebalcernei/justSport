@@ -45,11 +45,12 @@ function login() {
             username: username,
             password: password
         })
-    }).then((resp) => {
+    })
+    .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+    .then(function (data) { // Data da manipolare come vogliamo
+        console.log(data);
         // response creata nel POST di autenticazione.js e' corretta...
         // ma qua sembra essere vuota
-        console.log(JSON.stringify(resp.json));
-        resp.json();
     }).catch(error => console.error(error));
 }
 
