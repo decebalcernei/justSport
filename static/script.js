@@ -1,3 +1,5 @@
+var loggedUser = {}; // contiene dati (token incluso) dell'utente
+
 /*
  * La funzione subscribe viene chiamata ogni volta che si preme il pulsante
  * questa non fa altro che aggiungere un utente al db  
@@ -37,21 +39,25 @@ function login() {
     }));
 
     fetch("../autenticazione", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
         })
-    })
-    .then((resp) => resp.json()) // Trasforma i dati della risposta in json
-    .then(function (data) { // Data da manipolare come vogliamo
-        console.log(data);
-        // response creata nel POST di autenticazione.js e' corretta...
-        // ma qua sembra essere vuota
-    }).catch(error => console.error(error));
+        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then(function (data) { // Data da manipolare come vogliamo
+            // salviamo i dati dell'utente
+            loggedUser.token = data.token;
+            loggedUser.username = data.username;
+            loggedUser._id = data.id;
+            console.log(loggedUser);
+            // response creata nel POST di autenticazione.js e' corretta...
+            // ma qua sembra essere vuota
+        }).catch(error => console.error(error));
 }
 
 /*
@@ -103,8 +109,7 @@ function loadAnnunci() {
     fetch('../annunci')
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(function (data) { // Abbiamo data, che possiamo manipolare
-
-            return data.map(function (annuncio) { // Trasformiamo l'oggetto risposta in una mappa
+            return data.map((annuncio) => { // Applichiamo questa funzione anonima ad ogni elemento di `data`
                 let li = document.createElement('li');
                 let span = document.createElement('span');
                 let a = document.createElement('a');
