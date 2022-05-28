@@ -119,7 +119,7 @@ function loadAnnunci(token) {
                 let li = document.createElement('li');
                 let span = document.createElement('span');
                 let a = document.createElement('a');
-                a.href = "annuncio.html?id_annuncio=" + annuncio._id;
+                a.href = "annuncio.html?id_annuncio=" + annuncio._id + "&token=" + loggedUser.token;
                 if (!annuncio.sport)
                     a.textContent = annuncio.citta;
                 else
@@ -139,12 +139,20 @@ function loadAnnunci(token) {
 /*
  * La funzione detailAnnuncio mostra informazioni riguardanti l'annuncio scelto 
  */
-function detailAnnuncio(id_annuncio) {
+function detailAnnuncio(id_annuncio, token) {
+    loggedUser.token = token;
+
     const ul = document.getElementById('annuncio');
 
     ul.textContent = '';
 
-    fetch('../annunci/' + id_annuncio, )
+    fetch('../annunci/' + id_annuncio, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': loggedUser.token
+            },
+        })
         .then((resp) => resp.json())
         .then(function (data) {
             console.log(data);
