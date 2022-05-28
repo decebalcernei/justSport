@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
+<head>
     <title>Just Sport - Home</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <center>
-      <h1>Just Sport</h1>
+        <h1>Just Sport</h1>
     </center>
     <center>
-      <p>
-          Sei pregato di inserire un utente e una password per procedere
-          con la registrazione
-      </p>
-      </center>
-      <center>
-      <form action="/utenti" method="post" name="loginform" id="loginform">
-          <span>Registrati:</span>
-          <input name="username" value="" id="username"/>
-          <input name="password" value="" id="password"/>
-          <button type="button" onclick="login()">LogIn</button>
+        <p>
+            Sei pregato di inserire un utente e una password per procedere
+            con la registrazione
+        </p>
+    </center>
+    <center>
+        <form action="/utenti" method="post" name="loginform" id="loginform">
+            <span>Registrati:</span>
+            <input name="username" value="" id="username" />
+            <input name="password" value="" id="password" />
+            <button type="button" onclick="login_button()">LogIn</button>
         </form>
-      </center>
-      <center>
-        <a href="visualizzazione_annunci.html">Vai alla pagina degli annunci</a>
-      </center>
-  <script src="script.js"></script> 
-  </body>
+    </center>
+    <center>
+        <button onclick="visualizza_annunci()">Vai alla pagina degli annunci</button>
+    </center>
+    <script src="script.js"></script>
+    <script>
+        var token; // salviamo il token per richieste in futuro
+
+        async function login_button() {
+            token = await login(); // salvare il token
+        }
+
+        function visualizza_annunci() {
+            // passiamo il token come parametro nell'URL (BRUTTISSIMO)
+            window.location.href = "/visualizzazione_annunci.html?token=" + token;
+        }
+    </script>
+</body>
+
 </html>

@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 require('dotenv/config'); // per usare file .env (non condividere i dati per accedere al db)
 
-
 const app = express();
 
 // Middleware

@@ -38,7 +38,7 @@ function login() {
         password: password
     }));
 
-    fetch("../autenticazione", {
+    return fetch("../autenticazione", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -55,9 +55,7 @@ function login() {
             loggedUser.username = data.username;
             loggedUser._id = data.id;
             console.log(loggedUser);
-            // response creata nel POST di autenticazione.js e' corretta...
-            // ma qua sembra essere vuota
-        }).catch(error => console.error(error));
+        }).then(() => loggedUser.token).catch(error => console.error(error));
 }
 
 /*
@@ -100,13 +98,21 @@ function add() {
  * La funzione loadAnnunci non fa altro che "richiedere" la lista di tutti 
  * gli annunci e farli vedere
  */
-function loadAnnunci() {
+function loadAnnunci(token) {
+
+    loggedUser.token = token;
 
     const ul = document.getElementById('annunci'); // Dove andremo a mostrare gli annunci
 
     ul.textContent = '';
 
-    fetch('../annunci')
+    fetch('../annunci', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': loggedUser.token
+            },
+        })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(function (data) { // Abbiamo data, che possiamo manipolare
             return data.map((annuncio) => { // Applichiamo questa funzione anonima ad ogni elemento di `data`

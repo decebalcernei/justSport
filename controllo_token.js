@@ -18,7 +18,7 @@ const controllo_token = (req, res, next) => {
 				message: "token non valido"
 			});
 		} else {
-			req.loggedUser = decoded; // non penso che serva a noi
+			req.loggedUser = decoded;
 			next(); // passare alla pagina che l'utente cercava
 		}
 	});
