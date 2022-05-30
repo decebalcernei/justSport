@@ -15,6 +15,19 @@ router.get('', async (req, res) => {
 });
 
 
+// Restituisce l'utente specifico
+router.get('/:utenteId', async (req, res) => {
+    try {
+        const utente = await Utente.findById(req.params.utenteId);
+        res.status(211).json(utente);
+    } catch (err) {
+        res.json({
+            message: err
+        });
+    }
+});
+
+
 // Inserimento utente
 router.post('/', async (req, res) => {
 

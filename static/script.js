@@ -175,3 +175,56 @@ function detailAnnuncio(id_annuncio, token) {
         .catch(error => console.error(error)); // Catturiamo eventuali errori
 
 }
+
+function loadMyAnnunci(arg1) {
+    const ul = document.getElementById(arg1); // Dove andremo a mostrare gli annunci
+    ul.textContent = '';
+    fetch('../utenti/' + '6286544bef00f06435509a4c')
+        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then(function (data) { // Abbiamo data, che possiamo manipolare
+            var myAnnunci = '';
+            if (arg1 == 'iscrizione_annunci')
+                myAnnunci = data.iscrizione_annunci; // myAnnunci = array con annunci ai quali sono iscritto
+            else
+                myAnnunci = data.annunci_pubblicati;
+            if (myAnnunci.length == 0) {
+                let li = document.createElement('li');
+                let span = document.createElement('span');
+                let a = document.createElement('a');
+                if (arg1 == 'iscrizione_annunci')
+                    a.textContent = "non sei iscritto a nessun annuncio";
+                else
+                    a.textContent = "non hai pubblicato nessun annuncio";
+                // Append all our elements
+                span.appendChild(a);
+                li.appendChild(span);
+                ul.appendChild(li);
+            } else {
+                for (annuncio in myAnnunci) {
+                    let li = document.createElement('li');
+                    let span = document.createElement('span');
+                    let a = document.createElement('a');
+                    a.href = "annuncio.html?id_annuncio=" + myAnnunci[annuncio];
+                    fetch('../annunci/' + myAnnunci[annuncio])
+                        .then((resp) => resp.json())
+                        .then(function (data) {
+                            a.textContent = data.citta;
+
+                        })
+                        .catch(error => console.error(error)); // Catturiamo eventuali errori
+                    // Append all our elements
+                    span.appendChild(a);
+                    li.appendChild(span);
+                    ul.appendChild(li);
+                }
+            }
+        })
+        .catch(error => console.error(error)); // Catturiamo eventuali errori
+
+}
+
+
+function loadSezioneUtente() {
+    loadMyAnnunci('annunci_pubblicati');
+    loadMyAnnunci('iscrizione_annunci');
+}
