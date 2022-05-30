@@ -7,8 +7,8 @@
     <title>Pagina Annunci</title>
 </head>
 
-<body onload="get_token()">
-    <a href="index.html">Home</a>
+<body onload="loadAnnunci(token)">
+    <button onclick="to_home()">Home</button>
     <center>
         <h1>Pagina degli annunci</h1>
 
@@ -23,22 +23,25 @@
                 <p>
                     <label>Id annuncio</label><input value="" id="id_annuncio"></br>
                     <label>Id utente</label><input value="" id="id_utente"></br>
-                    <button type="button" onclick="subscribe()">Iscriviti</button>
+                    <button type="button" onclick="subscribe(token)">Iscriviti</button>
                 </p>
             </form>
         </div>
-        <a href="inserimento_annunci.html">Inserisci un tuo annuncio</a>
+        <button onclick="inserisci_annuncio()">Inserisci un tuo annuncio</button>
     </center>
 </body>
 <script src="script.js"></script>
 <script>
-    var token;
+    const param_string = window.location.search;
+    const URL_params = new URLSearchParams(param_string);
+    var token = URL_params.get("token");
 
-    function get_token() {
-        const param_string = window.location.search;
-        const URL_params = new URLSearchParams(param_string);
-        token = URL_params.get("token");
-        loadAnnunci(token); // preserve old behaviour
+    function to_home() {
+        window.location.href = "index.html?token=" + token;
+    }
+
+    function inserisci_annuncio() {
+        window.location.href = "inserimento_annunci.html?token=" + token;
     }
 </script>
 

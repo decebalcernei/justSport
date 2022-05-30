@@ -28,7 +28,9 @@
     </center>
     <script src="script.js"></script>
     <script>
-        var token; // salviamo il token per richieste in futuro
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var token = urlParams.get("token"); // salviamo il token per richieste in futuro
 
         async function login_button() {
             token = await login(); // salvare il token

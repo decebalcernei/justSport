@@ -7,7 +7,7 @@
 </head>
 
 <body onload="detailAnnuncio(annuncio, token)">
-    <a href="index.html">Home</a>
+    <button onclick="to_home()">Home</button>
     <center>
         <h1>Annuncio</h1>
         <p>
@@ -22,6 +22,10 @@
     const urlParams = new URLSearchParams(queryString);
     const annuncio = urlParams.get('id_annuncio');
     const token = urlParams.get("token");
+
+    function to_home() {
+        window.location.href = "index.html?token=" + token;
+    }
 </script>
 
 </html>

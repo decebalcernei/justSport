@@ -4,7 +4,8 @@ var loggedUser = {}; // contiene dati (token incluso) dell'utente
  * La funzione subscribe viene chiamata ogni volta che si preme il pulsante
  * questa non fa altro che aggiungere un utente al db  
  */
-function subscribe() {
+function subscribe(token) {
+    loggedUser.token = token;
 
     var id_utente = document.getElementById("id_utente").value;
     var id_annuncio = document.getElementById("id_annuncio").value;
@@ -13,7 +14,8 @@ function subscribe() {
     fetch('../annunci/' + id_annuncio, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": loggedUser.token
             },
             body: JSON.stringify({
                 id_utente: id_utente
@@ -62,7 +64,8 @@ function login() {
  * La funzione add viene chiamata ogni volta che si preme il pulsante
  * questa aggiunge un nuovo annuncio al db 
  */
-function add() {
+function add(token) {
+    loggedUser.token = token;
 
     // prendiamo gli elementi del form
     var min_partecipanti = document.getElementById("min_partecipanti").value;
@@ -76,7 +79,8 @@ function add() {
     fetch('../annunci', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": loggedUser.token
             },
             body: JSON.stringify({
                 min_partecipanti: min_partecipanti,
@@ -89,7 +93,7 @@ function add() {
         })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(() => {
-            window.location.href = "visualizzazione_annunci.html";
+            window.location.href = "visualizzazione_annunci.html?token=" + loggedUser.token;
         })
         .catch(error => console.error(error));
 }
