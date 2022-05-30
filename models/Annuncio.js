@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const AnnuncioSchema = mongoose.Schema({
+	autore: {
+		type: String,
+		required: true
+	},
 	sport: {
 		type: String,
 		required: true

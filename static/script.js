@@ -83,6 +83,7 @@ function add(token) {
                 "x-access-token": loggedUser.token
             },
             body: JSON.stringify({
+                autore: parseJwt(loggedUser.token).id,
                 min_partecipanti: min_partecipanti,
                 max_partecipanti: max_partecipanti,
                 attrezzatura_necessaria: attrezzatura_necessaria,
@@ -179,7 +180,7 @@ function detailAnnuncio(id_annuncio, token) {
 function loadMyAnnunci(arg1) {
     const ul = document.getElementById(arg1); // Dove andremo a mostrare gli annunci
     ul.textContent = '';
-    fetch('../utenti/' + '6286544bef00f06435509a4c')
+    fetch('../utenti/' + parseJwt(loggedUser.token).id)
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(function (data) { // Abbiamo data, che possiamo manipolare
             var myAnnunci = '';
@@ -224,7 +225,19 @@ function loadMyAnnunci(arg1) {
 }
 
 
-function loadSezioneUtente() {
+function loadSezioneUtente(token) {
+    loggedUser.token = token;
+
     loadMyAnnunci('annunci_pubblicati');
     loadMyAnnunci('iscrizione_annunci');
 }
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};

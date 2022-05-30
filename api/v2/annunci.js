@@ -19,6 +19,7 @@ router.get('', async (req, res) => {
 router.post('', (req, res) => {
     console.log(req.body);
     var annuncio = new Annuncio({
+        autore: req.body.autore,
         sport: req.body.sport,
         min_partecipanti: req.body.min_partecipanti,
         max_partecipanti: req.body.max_partecipanti,
@@ -34,10 +35,27 @@ router.post('', (req, res) => {
     if (annuncio.min_partecipanti > annuncio.max_partecipanti)
         throw "annuncio invalido! max partecipanti e' maggiore di min partecipanti";
 
-    annuncio.save((err, doc) => {
-        if (!err)
+    annuncio.save(async (err, doc) => {
+        if (!err) {
+            let annuncio_id = annuncio._id;
+
+            // specificare l'utente
+            query = {
+                "_id": req.body.autore
+            };
+
+            // specificare l'annuncio
+            updateDocument = {
+                $push: {
+                    "annunci_pubblicati": annuncio_id
+                }
+            };
+
+            // aggiungere l'annuncio alla lista di annunci di cui l'utente e' l'autore
+            result = await Utente.updateOne(query, updateDocument);
+
             res.status(202).json(annuncio._id);
-        else
+        } else
             res.send(err);
     });
 });

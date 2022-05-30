@@ -1,14 +1,22 @@
 <html>
-    <script src="script.js"></script>
-    <head>
-        <title>Sezione Utente</title>
-    </head>
-    <body onload="loadSezioneUtente()">
-        <h2>Annunci ai quali sei iscritto:</h2><br>
-        <ul id="iscrizione_annunci"></ul>
+<script src="script.js"></script>
 
-        <h2>Annunci che hai pubblicato:</h2><br>
-        <ul id="annunci_pubblicati"></ul>
-        
-    </body>
+<head>
+    <title>Sezione Utente</title>
+</head>
+
+<body onload="loadSezioneUtente(token)">
+    <h2>Annunci ai quali sei iscritto:</h2><br>
+    <ul id="iscrizione_annunci"></ul>
+
+    <h2>Annunci che hai pubblicato:</h2><br>
+    <ul id="annunci_pubblicati"></ul>
+
+</body>
+<script>
+    const param_string = window.location.search;
+    const URL_params = new URLSearchParams(param_string);
+    var token = URL_params.get("token");
+</script>
+
 </html>
