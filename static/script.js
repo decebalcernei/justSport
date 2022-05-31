@@ -205,7 +205,7 @@ function loadMyAnnunci(arg1) {
                     let li = document.createElement('li');
                     let span = document.createElement('span');
                     let a = document.createElement('a');
-                    a.href = "annuncio.html?id_annuncio=" + myAnnunci[annuncio];
+                    a.href = "annuncio.html?id_annuncio=" + myAnnunci[annuncio] + "&token=" + loggedUser.token;
                     fetch('../annunci/' + myAnnunci[annuncio])
                         .then((resp) => resp.json())
                         .then(function (data) {
