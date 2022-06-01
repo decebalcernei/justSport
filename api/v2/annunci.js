@@ -115,6 +115,58 @@ router.post("/:annuncioId", async (req, res) => {
     }
 });
 
+// Disiscrizione da annuncio
+router.delete("/:annuncioId", async (req, res) => {
+    try {
+        const utente = await Utente.findById(req.body.id_utente);
+        const annuncio = await Annuncio.findById(req.params.annuncioId);
+
+        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length === 0)
+            throw "non sei iscritto a questo annuncio";
+
+        if (annuncio.partecipanti.filter(e => e === utente.id).length === 0)
+            throw "non sei iscritto a questo annuncio";
+
+        // specificare l'annuncio
+        let query = {
+            "_id": req.params.annuncioId
+        };
+
+        // specificare l'utente
+        let updateDocument = {
+            $pull: {
+                "partecipanti": req.body.id_utente
+            }
+        };
+
+        // togliere l'utente dai partecipanti dell'annuncio
+        let result = await Annuncio.updateOne(query, updateDocument);
+
+        console.log(result);
+
+        // specificare l'utente
+        query = {
+            "_id": req.body.id_utente
+        };
+
+        // specificare l'annuncio
+        updateDocument = {
+            $pull: {
+                "iscrizione_annunci": req.params.annuncioId
+            }
+        };
+
+        // togliere l'annuncio dalla lista di annunci a cui l'utente e' iscritto
+        result = await Utente.updateOne(query, updateDocument);
+
+        res.status(210).json("success");
+    } catch (err) {
+        res.json({
+            message: err
+        });
+    }
+});
+
 
 // Restituisce uno specifico annuncio
 router.get('/:annuncioId', async (req, res) => {

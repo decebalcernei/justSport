@@ -2,16 +2,13 @@ var loggedUser = {}; // contiene dati (token incluso) dell'utente
 
 /*
  * La funzione subscribe viene chiamata ogni volta che si preme il pulsante
- * questa non fa altro che aggiungere un utente al db  
  */
-function subscribe(token) {
+async function subscribe(token, id_annuncio) {
     loggedUser.token = token;
 
-    var id_utente = document.getElementById("id_utente").value;
-    var id_annuncio = document.getElementById("id_annuncio").value;
+    var id_utente = parseJwt(loggedUser.token).id;
 
-
-    fetch('../annunci/' + id_annuncio, {
+    await fetch('../annunci/' + id_annuncio, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,8 +23,29 @@ function subscribe(token) {
             return;
         })
         .catch(error => console.error(error));
+}
 
+// Disiscrivere l'utente dall'annuncio
+async function unsubscribe(token, id_annuncio) {
+    loggedUser.token = token;
 
+    var id_utente = parseJwt(loggedUser.token).id;
+
+    await fetch('../annunci/' + id_annuncio, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                "x-access-token": loggedUser.token
+            },
+            body: JSON.stringify({
+                id_utente: id_utente
+            }),
+        })
+        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then(function (data) { // Data da manipolare come vogliamo
+            return;
+        })
+        .catch(error => console.error(error))
 }
 
 function login() {
@@ -147,7 +165,8 @@ function loadAnnunci(token) {
 function detailAnnuncio(id_annuncio, token) {
     loggedUser.token = token;
 
-    const ul = document.getElementById('annuncio');
+    var ul = document.getElementById('annuncio');
+    var iscrizione_button = document.getElementById("iscrizione");
 
     ul.textContent = '';
 
@@ -194,12 +213,35 @@ function detailAnnuncio(id_annuncio, token) {
                 costo = document.createTextNode("La partecipazione a questo evento e' gratis :)");
             p_costo.appendChild(costo);
 
+            let p_iscritto = document.createElement("p");
+            let iscritto;
+            if (data.partecipanti.some(e => e === parseJwt(token).id))
+                iscritto = document.createTextNode("Sei gia' iscritto a questo annuncio");
+            else
+                iscritto = document.createTextNode("");
+            p_iscritto.appendChild(iscritto);
+
             span.appendChild(p_che_si_fa);
             span.appendChild(p_partecipanti);
             span.appendChild(p_attrezzatura);
             span.appendChild(p_costo);
+            span.appendChild(p_iscritto);
 
             ul.appendChild(span);
+
+            if (data.partecipanti.some(e => e === parseJwt(token).id)) {
+                iscrizione_button.textContent = "disiscriviti";
+                iscrizione_button.onclick = async () => {
+                    await unsubscribe(token, data._id);
+                    window.location.reload();
+                };
+            } else {
+                iscrizione_button.textContent = "iscriviti";
+                iscrizione_button.onclick = async () => {
+                    await subscribe(token, data._id);
+                    window.location.reload();
+                };
+            }
 
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
