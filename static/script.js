@@ -138,7 +138,7 @@ function loadAnnunci(token) {
 
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-
+        displayNomeUtente(); 
 }
 
 /*
@@ -174,7 +174,7 @@ function detailAnnuncio(id_annuncio, token) {
 
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-
+        displayNomeUtente();
 }
 
 function loadMyAnnunci(arg1) {
@@ -221,7 +221,7 @@ function loadMyAnnunci(arg1) {
             }
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-
+        displayNomeUtente();
 }
 
 
@@ -230,6 +230,7 @@ function loadSezioneUtente(token) {
 
     loadMyAnnunci('annunci_pubblicati');
     loadMyAnnunci('iscrizione_annunci');
+    displayNomeUtente();
 }
 
 function parseJwt(token) {
@@ -243,7 +244,18 @@ function parseJwt(token) {
 };
 
 
-function displayNomeUtente(){
-    const p = document.getElementById('nome-utente');
-    p.textContent = 'Ciao, ' + + '!';
+function displayNomeUtente() {
+    const p = document.getElementById('nome_utente');
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const token = urlParams.get("token");
+    if (token != null) {
+        nome_utente = parseJwt(token).username;
+        p.textContent = 'Ciao, ';
+        let a = document.createElement('a');
+        a.textContent = nome_utente;
+        a.href = "sezione_utente.html?token=" + token;
+        p.appendChild(a);
+    }
+
 }
