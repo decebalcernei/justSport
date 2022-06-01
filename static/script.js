@@ -241,3 +241,9 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 };
+
+
+function displayNomeUtente(){
+    const p = document.getElementById('nome-utente');
+    p.textContent = 'Ciao, ' + + '!';
+}

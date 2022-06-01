@@ -6,24 +6,19 @@
 </head>
 
 <body>
+    <p id="nome_utente"></p>
     <center>
         <h1>Just Sport</h1>
-    </center>
-    <center>
         <p>
             Sei pregato di inserire un utente e una password per procedere
             con la registrazione
         </p>
-    </center>
-    <center>
         <form action="/utenti" method="post" name="loginform" id="loginform">
             <span>Registrati:</span>
             <input name="username" value="" id="username" />
             <input name="password" value="" id="password" />
             <button type="button" onclick="login_button()">LogIn</button>
         </form>
-    </center>
-    <center>
         <button onclick="visualizza_annunci()">Vai alla pagina degli annunci</button>
     </center>
     <script src="script.js"></script>
