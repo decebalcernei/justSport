@@ -109,5 +109,9 @@ router.get('/:annuncioId', async (req, res) => {
         });
     }
 });
-
+/*
+router.get {}
+    // mettere il filtro del database
+};
+*/
 module.exports = router;

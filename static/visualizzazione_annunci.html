@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
+
+
 <html>
+<<<<<<< Updated upstream
 
 <head>
 
@@ -14,10 +17,130 @@
         <h1>Pagina degli annunci</h1>
 
         <h2>Annunci:</h2>
+=======
+    <head> 
+        <title>Pagina Annunci</title>
+        <style>
+            .classe_body{
+              padding: 7px 0;
+              text-align: center;
+              position: relative;
+            }
+            .cima{
+                padding: 7px 0;
+                text-align: center;
+            }
+      
+            .form{
+              padding: 7px 0;
+              text-align: center;
+            }
 
-        <ul id="annunci"></ul>
+            table{
+                margin-left: auto;
+                margin-right: auto;
+            }
+          </style>
+    </head>
 
+    <body onload="loadAnnunci()">
+        
+        <a href="index.html">Home</a>
+>>>>>>> Stashed changes
 
+        <div class="classe_body">
+            <div class="cima">
+                <h1>Pagina degli annunci</h1>
+            </div>
+            
+            <div id="filtro_annunci" class="form">
+                <p>Filtra gli annunci per trovare quello più adatto a te!</p>
+                <table>
+                    </form action="/annunci" method="post">
+                        <tr>
+                            <td>
+                                <label>Partecipanti minimi</label>
+                            </td>
+                            <td>
+                                <input value="" id="min_partecipanti">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Partecipanti massimi</label>
+                            </td>
+                            <td>
+                                <input value="" id="max_partecipanti">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Attrezzatura Necessaria</label>
+                            </td>
+                            <td>
+                                <select value="" id="attrezzatura_necessaria">
+                                    <option value="false">No</option>
+                                    <option value="true">Si</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Costo</label>
+                            </td>
+                            <td>
+                                <input value="" id="costo">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Città</label>
+                            </td>
+                            <td>
+                                <select value="" id="citta"">
+                                    <option value="Ancona">Ancona</option>
+                                    <option value="Bolzano">Bolzano</option>
+                                    <option value="Brescia">Brescia</option>
+                                    <option value="Milano">Milano</option>
+                                    <option value="Torino">Torino</option>
+                                    <option value="Trento">Trento</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Sport</label>
+                            </td>
+                            <td>
+                                <select value="" id="sport">
+                                    <option value="Atletica">Atletica</option>
+                                    <option value="Baseball">Baseball</option>
+                                    <option value="Basket">Basket</option>
+                                    <option value="Calcio">Calcio</option>
+                                    <option value="Danza">Danza</option>
+                                    <option value="Hockey">Hockey</option>
+                                    <option value="Sci">Sci</option>
+                                    <option value="Tennis">Tennis</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Conferma scelte:</span>
+                            </td>
+                            <td>
+                                <button type="button" onclick="filter()">Conferma</button>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+            <h2>Annunci:</h2>
+            <ul id="annunci"></ul>
+
+            <h2>Icriviti ad un annuncio:</h2>
+
+<<<<<<< Updated upstream
         <h2>Icriviti ad un annuncio:</h2>
         <div id="icrizione_annuncio">
             <form action="/annunci/" method="post">
@@ -46,4 +169,19 @@
     }
 </script>
 
+=======
+            <div id="icrizione_annuncio">
+                <form action="/annunci/" method="post">
+                    <p>
+                        <label>Id annuncio</label><input value="" id="id_annuncio"></br>
+                        <label>Id utente</label><input value="" id="id_utente"></br>
+                        <button type="button" onclick="subscribe()">Iscriviti</button>
+                    </p>
+                </form>
+            </div>
+            <a href="inserimento_annunci.html">Inserisci un tuo annuncio</a>
+        </div>
+        <script src="script.js"></script>
+    </body>
+>>>>>>> Stashed changes
 </html>
