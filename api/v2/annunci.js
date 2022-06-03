@@ -2,11 +2,32 @@ const express = require('express');
 const router = express.Router();
 const Annuncio = require('../../models/Annuncio'); // ci serve per interagire con il db
 const Utente = require('../../models/Utente');
-
+/*
 // Restituisce tutti gli annunci
 router.get('', async (req, res) => {
     try {
         const annunci = await Annuncio.find();
+        res.status(201).json(annunci);
+    } catch (err) {
+        res.json({
+            message: err
+        });
+    }
+});
+*/
+//restituisce annunci in base al filtro
+router.get('', async (req, res) => {
+    // query
+    
+    var query = {
+        attrezzatura_necessaria : req.headers['attrezzatura_necessaria'],
+        $lt:{costo : req.headers['costo']},
+        sport : req.headers['sport'],
+        citta : req.headers['citta']
+    };
+    try {
+        const annunci = await Annuncio.find(query);
+        console.log(annunci);   
         res.status(201).json(annunci);
     } catch (err) {
         res.json({

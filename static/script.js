@@ -86,13 +86,10 @@ function add(token) {
     loggedUser.token = token;
 
     // prendiamo gli elementi del form
-    var min_partecipanti = document.getElementById("min_partecipanti").value;
-    var max_partecipanti = document.getElementById("max_partecipanti").value;
     var attrezzatura_necessaria = document.getElementById("attrezzatura_necessaria").value;
     var costo = document.getElementById("costo").value;
     var citta = document.getElementById("citta").value;
     var sport = document.getElementById("sport").value;
-
 
     fetch('../annunci', {
             method: 'POST',
@@ -101,7 +98,6 @@ function add(token) {
                 "x-access-token": loggedUser.token
             },
             body: JSON.stringify({
-                autore: parseJwt(loggedUser.token).id,
                 min_partecipanti: min_partecipanti,
                 max_partecipanti: max_partecipanti,
                 attrezzatura_necessaria: attrezzatura_necessaria,
@@ -119,11 +115,19 @@ function add(token) {
 
 /*
  * La funzione loadAnnunci non fa altro che "richiedere" la lista di tutti 
- * gli annunci e farli vedere
+ * gli annunci che rientrano nei parametri dei filtri e farli vedere.
  */
 function loadAnnunci(token) {
 
     loggedUser.token = token;
+
+    // prendiamo gli elementi del form
+    var attrezzatura_necessaria = document.getElementById("attrezzatura_necessaria").value;
+    var costo = document.getElementById("costo").value;
+    var citta = document.getElementById("citta").value;
+    var sport = document.getElementById("sport").value;
+
+    console.log(citta);
 
     const ul = document.getElementById('annunci'); // Dove andremo a mostrare gli annunci
 
@@ -133,11 +137,16 @@ function loadAnnunci(token) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'x-access-token': loggedUser.token
+                'x-access-token': loggedUser.token,
+                'attrezzatura_necessaria': attrezzatura_necessaria,
+                'costo': costo,
+                'citta': citta,
+                'sport': sport
             },
         })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(function (data) { // Abbiamo data, che possiamo manipolare
+            console.log(data);
             return data.map((annuncio) => { // Applichiamo questa funzione anonima ad ogni elemento di `data`
                 let li = document.createElement('li');
                 let span = document.createElement('span');
@@ -153,13 +162,8 @@ function loadAnnunci(token) {
                 li.appendChild(span);
                 ul.appendChild(li);
             })
-
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-<<<<<<< Updated upstream
-        displayNomeUtente(); 
-=======
->>>>>>> Stashed changes
 }
 
 /*
@@ -295,10 +299,8 @@ function loadMyAnnunci(arg1) {
             }
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-<<<<<<< Updated upstream
         displayNomeUtente();
 }
-
 
 function loadSezioneUtente(token) {
     loggedUser.token = token;
@@ -332,55 +334,4 @@ function displayNomeUtente() {
         a.href = "sezione_utente.html?token=" + token;
         p.appendChild(a);
     }
-=======
-}
-
-
-// questa funzione viene chiamata quando si confermano le scelte del filtro
-function filter() {
-
-    // prendiamo gli elementi del form
-    var min_partecipanti = document.getElementById("min_partecipanti").value;
-    var max_partecipanti = document.getElementById("max_partecipanti").value;
-    var attrezzatura_necessaria = document.getElementById("attrezzatura_necessaria").value;
-    var costo = document.getElementById("costo").value;
-    var citta = document.getElementById("citta").value;
-    var sport = document.getElementById("sport").value;
-    
-    // serve questa query?
-    var query = {
-        max_partecipanti : min_partecipanti,
-        max_partecipanti : max_partecipanti,
-        attrezzatura_necessaria : attrezzatura_necessaria,
-        costo : costo,
-        citta: citta,
-        sport : sport,
-    };
-
-    console.log(citta);
-    // fare fetch per l'api
-    // copiato da quello che c'era sopra XD
-    fetch('../annunci')
-    .then((resp) => resp.json()) // Trasforma i dati della risposta in json
-    .then(function (data) { // Abbiamo data, che possiamo manipolare
-
-        return data.map(function (annuncio) { // Trasformiamo l'oggetto risposta in una mappa
-            let li = document.createElement('li');
-            let span = document.createElement('span');
-            let a = document.createElement('a');
-            a.href = "annuncio.html?id_annuncio=" + annuncio._id;
-            if (!annuncio.sport)
-                a.textContent = annuncio.citta;
-            else
-                a.textContent = annuncio.sport;
-
-            // Append all our elements
-            span.appendChild(a);
-            li.appendChild(span);
-            ul.appendChild(li);
-        })
->>>>>>> Stashed changes
-
-    })
-    .catch(error => console.error(error)); // Catturiamo eventuali errori
 }

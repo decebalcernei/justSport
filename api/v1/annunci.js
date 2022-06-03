@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Annuncio = require('../../models/Annuncio'); // ci serve per interagire con il db
 const Utente = require('../../models/Utente');
-
+/*
 // Restituisce tutti gli annunci
 router.get('', async (req, res) => {
     try {
@@ -14,6 +14,8 @@ router.get('', async (req, res) => {
         });
     }
 });
+*/
+
 
 // Aggiunge un nuovo annuncio
 router.post('', (req, res) => {
@@ -109,9 +111,4 @@ router.get('/:annuncioId', async (req, res) => {
         });
     }
 });
-/*
-router.get {}
-    // mettere il filtro del database
-};
-*/
 module.exports = router;
