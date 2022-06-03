@@ -156,7 +156,7 @@ function loadAnnunci(token) {
 
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-        displayNomeUtente(); 
+    displayNomeUtente();
 }
 
 /*
@@ -245,7 +245,7 @@ function detailAnnuncio(id_annuncio, token) {
 
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-        displayNomeUtente();
+    displayNomeUtente();
 }
 
 function loadMyAnnunci(arg1) {
@@ -292,7 +292,7 @@ function loadMyAnnunci(arg1) {
             }
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-        displayNomeUtente();
+    displayNomeUtente();
 }
 
 

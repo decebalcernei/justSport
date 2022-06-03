@@ -7,6 +7,9 @@ const Utente = require('../../models/Utente');
 router.get('', async (req, res) => {
     try {
         const annunci = await Annuncio.find();
+        let properties = Object.getOwnPropertyNames(res);
+        // nota che non ci sono mai `.status()` e `.json()`...
+        console.log(properties);
         res.status(201).json(annunci);
     } catch (err) {
         res.json({
