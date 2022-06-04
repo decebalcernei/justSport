@@ -41,4 +41,4 @@ mongoose.connect(process.env.DB_CONNECTION, (res) => {
 
 app.get('/favicon.ico', (req, res) => res.status(204));
 
-app.listen(3000);
+module.exports = app.listen(3000);

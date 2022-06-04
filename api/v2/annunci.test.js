@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('./annunci');
+const app = require('../../index');
 const jwt = require("jsonwebtoken"); // used to create, sign, and verify tokens
 const express = require("express");
 const mongoose = require('mongoose');
@@ -10,16 +10,16 @@ describe("GET /api/v2/annunci", () => {
 
 	let connection;
 
-	beforeAll(async () => {
-		jest.setTimeout(8000);
+	beforeAll( async () => {
 		jest.unmock("mongoose");
 		connection = await mongoose.connect(process.env.DB_CONNECTION);
-		console.log("connesso al db");
+		console.log("connection: " + connection);
+
 	});
 
-	afterAll(() => {
-		mongoose.connection.close = true;
-		console.log("chiuso connessione al db");
+	afterAll( async () => {
+		connection = await mongoose.connection.close();
+		console.log("connection:" + connection);
 	});
 
 	var token = jwt.sign({
@@ -31,8 +31,12 @@ describe("GET /api/v2/annunci", () => {
 		}
 	);
 
-	test("test test", () => {
-		return request(app).get("/").set("x-access-token", token).expect(201);
+	test("test test", async () => {
+		return request(app).get("/annunci").set("x-access-token", token).expect(201);
 	});
 
 });
+
+// vedi scheda su trello
+
+// asynchronous operations that weren't stopped in your tests
