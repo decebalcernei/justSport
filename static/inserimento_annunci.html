@@ -11,7 +11,7 @@
         <center>
             <h1>Crea Annuncio</h1>
         </center>
-        <a href="index.html">Home</a>
+        <button onclick="to_home()">Home</button>
         <center>
             <table>
                 <form action="/annunci" method="post">
@@ -93,6 +93,11 @@
                 </form>
             </table>
         </center>
-        <script src="script.js"></script> 
+        <script src="script.js"></script>
+        <script>
+            function to_home() {
+                window.location.href = "index.html?token=" + token;
+            }
+        </script>
     </body>
 </html>

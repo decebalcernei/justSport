@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <title>Just Sport - Home</title>
+      <title>Just Sport - Login</title>
 
       <style>
         .classe_body{
@@ -23,21 +23,21 @@
 
   <body>
     <p id="nome_utente"></p>
-    <button onclick="login_page()">Login</button>
+    <button onclick="to_home()">Home</button>
     <div class="classe_body">
       <div class="cima">
         <h1>Just Sport</h1></br>
         <p>
-          Sei pregato di inserire un utente e una password per procedere
-          con la registrazione
+          Sei pregato di inserire il nome utente e la password per procedere
+          con il login
         </p>
-      </div>  
+      </div>
       <div class="form">
           <form action="/utenti" method="post" name="loginform" id="loginform">
               <input name="username" value="" id="username" / placeholder="Username">
               <input type="password" name="password" value="" id="password" / placeholder="Passsword">
               <input type="checkbox" onclick="mostraPassword()">Mostra Password
-              <button type="button" onclick="login_button()">Registrati</button>
+              <button type="button" onclick="login_button()">LogIn</button>
           </form>
       </div>
       <p id="conferma"></p>
@@ -47,9 +47,8 @@
           const queryString = window.location.search;
           const urlParams = new URLSearchParams(queryString);
           var token = urlParams.get("token"); // salviamo il token per richieste in futuro
-
+          
           async function login_button() {
-              registrazione(); // salva le credenziali nel database
               token = await login(); // salvare il token
           }
 
@@ -57,9 +56,8 @@
               // passiamo il token come parametro nell'URL (BRUTTISSIMO)
               window.location.href = "/visualizzazione_annunci.html?token=" + token;
           }
-          
-          function login_page(){
-            window.location.href = "/login.html?token=" + token;
+          function to_home() {
+              window.location.href = "index.html?token=" + token;
           }
       </script>
     </div>

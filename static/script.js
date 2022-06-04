@@ -52,12 +52,12 @@ function login() {
 
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-
-    console.log(JSON.stringify({
-        username: username,
-        password: password
-    }));
-
+    
+    if(username == "" || password == ""){
+        document.getElementById("conferma").innerHTML = "Non puoi lasciare i campi vuoti";
+    }
+    else{
+    document.getElementById("conferma").innerHTML = "Login effettuato";
     return fetch("../autenticazione", {
             method: "POST",
             headers: {
@@ -74,8 +74,31 @@ function login() {
             loggedUser.token = data.token;
             loggedUser.username = data.username;
             loggedUser._id = data.id;
-            console.log(loggedUser);
         }).then(() => loggedUser.token).catch(error => console.error(error));
+    }
+}
+
+function registrazione(){
+    
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    
+    if(username == "" || password == ""){
+        document.getElementById("conferma").innerHTML = "Non puoi lasciare i campi vuoti";
+    }
+    else{
+    document.getElementById("conferma").innerHTML = "Login effettuato";
+    return fetch("../utenti", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+    }
 }
 
 /*
@@ -126,8 +149,6 @@ function loadAnnunci(token) {
     var costo = document.getElementById("costo").value;
     var citta = document.getElementById("citta").value;
     var sport = document.getElementById("sport").value;
-
-    console.log(citta);
 
     const ul = document.getElementById('annunci'); // Dove andremo a mostrare gli annunci
 
@@ -333,5 +354,14 @@ function displayNomeUtente() {
         a.textContent = nome_utente;
         a.href = "sezione_utente.html?token=" + token;
         p.appendChild(a);
+    }
+}
+
+function mostraPassword() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
     }
 }

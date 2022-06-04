@@ -20,7 +20,7 @@ router.post("", async (req, res) => {
 
 	if (user.password != req.body.password) {
 		res.json({
-			message: "password sbagliato"
+			message: "password sbagliata"
 		});
 		return;
 	}
