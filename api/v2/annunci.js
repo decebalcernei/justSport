@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 
 // Restituisce tutti gli annunci
-router.get('', async (req, res) => {
+router.get('tutti', async (req, res) => {
     try {
         const annunci = await Annuncio.find();
         res.status(201).json(annunci);
@@ -24,9 +24,7 @@ router.get('', async (req, res) => {
 
     var query = {
         attrezzatura_necessaria: req.headers['attrezzatura_necessaria'],
-        $lt: {
-            costo: req.headers['costo']
-        },
+        costo: { $lte: req.headers['costo'] },
         sport: req.headers['sport'],
         citta: req.headers['citta']
     };

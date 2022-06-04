@@ -64,7 +64,7 @@
                             <label>Città</label>
                         </td>
                         <td>
-                            <select value="" id="citta"">
+                            <select value="" id="citta">
                                 <option value="Ancona">Ancona</option>
                                 <option value="Bolzano">Bolzano</option>
                                 <option value="Brescia">Brescia</option>
@@ -105,16 +105,6 @@
         <h2>Annunci:</h2>
         <ul id="annunci"></ul>
 
-        <h2>Icriviti ad un annuncio:</h2>
-        <div id="icrizione_annuncio">
-            <form action="/annunci/" method="post">
-                <p>
-                    <label>Id annuncio</label><input value="" id="id_annuncio"></br>
-                    <label>Id utente</label><input value="" id="id_utente"></br>
-                    <button type="button" onclick="subscribe(token)">Iscriviti</button>
-                </p>
-            </form>
-        </div>
         <button onclick="inserisci_annuncio()">Inserisci un tuo annuncio</button>
         <script src="script.js"></script>
         <script>
