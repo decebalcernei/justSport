@@ -1,19 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Utente = require('../../models/Utente'); // ci serve per interagire con il db
-
-// Restituisce tutti gli utenti (per ora usata solo per testing)
-router.get('', async (req, res) => {
-    try {
-        const utenti = await Utente.find();
-        res.json(utenti);
-    } catch (err) {
-        res.json({
-            message: err
-        });
-    }
-});
-
+const Utente = require('../../models/Utente');
 
 // Restituisce l'utente specifico
 router.get('/:utenteId', async (req, res) => {
@@ -21,8 +8,8 @@ router.get('/:utenteId', async (req, res) => {
         const utente = await Utente.findById(req.params.utenteId);
         res.status(211).json(utente);
     } catch (err) {
-        res.json({
-            message: err
+        res.status(404).json({
+            message: "utente inesistente"
         });
     }
 });
@@ -37,9 +24,9 @@ router.post('/', async (req, res) => {
     });
     try {
         const utenteSalvato = await utente.save();
-        res.json(utenteSalvato)
+        res.status(201).json(utenteSalvato)
     } catch (err) {
-        res.json({
+        res.status(400).json({
             message: err
         })
     }
