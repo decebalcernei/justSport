@@ -52,43 +52,41 @@ function login() {
 
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    
-    if(username == "" || password == ""){
+
+    if (username == "" || password == "") {
         document.getElementById("conferma").innerHTML = "Non puoi lasciare i campi vuoti";
-    }
-    else{
-    document.getElementById("conferma").innerHTML = "Login effettuato";
-    return fetch("../autenticazione", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password
+    } else {
+        document.getElementById("conferma").innerHTML = "Login effettuato";
+        return fetch("../autenticazione", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
             })
-        })
-        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
-        .then(function (data) { // Data da manipolare come vogliamo
-            // salviamo i dati dell'utente
-            loggedUser.token = data.token;
-            loggedUser.username = data.username;
-            loggedUser._id = data.id;
-        }).then(() => loggedUser.token).catch(error => console.error(error));
+            .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+            .then(function (data) { // Data da manipolare come vogliamo
+                // salviamo i dati dell'utente
+                loggedUser.token = data.token;
+                loggedUser.username = data.username;
+                loggedUser._id = data.id;
+            }).then(() => loggedUser.token).catch(error => console.error(error));
     }
 }
 
-function registrazione(){
-    
+function registrazione() {
+
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    
-    if(username == "" || password == ""){
+
+    if (username == "" || password == "") {
         document.getElementById("conferma").innerHTML = "Non puoi lasciare i campi vuoti";
-    }
-    else{
-    document.getElementById("conferma").innerHTML = "Login effettuato";
-    return fetch("../utenti", {
+    } else {
+        document.getElementById("conferma").innerHTML = "Login effettuato";
+        return fetch("../utenti", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -185,6 +183,7 @@ function loadAnnunci(token) {
             })
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
+    displayNomeUtente();
 }
 
 /*
@@ -273,7 +272,7 @@ function detailAnnuncio(id_annuncio, token) {
 
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-        displayNomeUtente();
+    displayNomeUtente();
 }
 
 function loadMyAnnunci(arg1) {
@@ -320,7 +319,7 @@ function loadMyAnnunci(arg1) {
             }
         })
         .catch(error => console.error(error)); // Catturiamo eventuali errori
-        displayNomeUtente();
+    displayNomeUtente();
 }
 
 function loadSezioneUtente(token) {

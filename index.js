@@ -1,8 +1,8 @@
 // Import the packages
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
-const cors = require('cors')
+const bodyParser = require('body-parser');
+const cors = require('cors');
 require('dotenv/config'); // per usare file .env (non condividere i dati per accedere al db)
 
 const app = express();
@@ -41,4 +41,4 @@ mongoose.connect(process.env.DB_CONNECTION, (res) => {
 
 app.get('/favicon.ico', (req, res) => res.status(204));
 
-app.listen(3000);
+module.exports = app.listen(3000);

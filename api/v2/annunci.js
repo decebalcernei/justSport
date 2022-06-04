@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Annuncio = require('../../models/Annuncio'); // ci serve per interagire con il db
 const Utente = require('../../models/Utente');
-/*
+const controllo_token = require('../../controllo_token');
+const jwt = require("jsonwebtoken");
+
+
 // Restituisce tutti gli annunci
 router.get('', async (req, res) => {
     try {
@@ -14,20 +17,22 @@ router.get('', async (req, res) => {
         });
     }
 });
-*/
+
 //restituisce annunci in base al filtro
 router.get('', async (req, res) => {
     // query
-    
+
     var query = {
-        attrezzatura_necessaria : req.headers['attrezzatura_necessaria'],
-        $lt:{costo : req.headers['costo']},
-        sport : req.headers['sport'],
-        citta : req.headers['citta']
+        attrezzatura_necessaria: req.headers['attrezzatura_necessaria'],
+        $lt: {
+            costo: req.headers['costo']
+        },
+        sport: req.headers['sport'],
+        citta: req.headers['citta']
     };
     try {
         const annunci = await Annuncio.find(query);
-        console.log(annunci);   
+        console.log(annunci);
         res.status(201).json(annunci);
     } catch (err) {
         res.json({
@@ -38,7 +43,26 @@ router.get('', async (req, res) => {
 
 // Aggiunge un nuovo annuncio
 router.post('', (req, res) => {
-    console.log(req.body);
+
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
+
+    if (!token) {
+        res.status(401).json({
+            message: "niente token"
+        });
+        return;
+    }
+
+    jwt.verify(token, process.env.SEGRETO, (err, decoded) => {
+        if (err) {
+            res.status(403).json({
+                message: "token non valido"
+            });
+            return;
+        } else
+            req.loggedUser = decoded;
+    });
+
     var annuncio = new Annuncio({
         autore: req.body.autore,
         sport: req.body.sport,
@@ -53,8 +77,12 @@ router.post('', (req, res) => {
     if (annuncio.min_partecipanti == null)
         annuncio.min_partecipanti = 2;
 
-    if (annuncio.min_partecipanti > annuncio.max_partecipanti)
-        throw "annuncio invalido! max partecipanti e' maggiore di min partecipanti";
+    if (annuncio.min_partecipanti > annuncio.max_partecipanti) {
+        res.status(400).json({
+            message: "annuncio invalido! max partecipanti e' minore di min partecipanti"
+        });
+        return;
+    }
 
     annuncio.save(async (err, doc) => {
         if (!err) {
@@ -77,7 +105,7 @@ router.post('', (req, res) => {
 
             res.status(202).json(annuncio._id);
         } else
-            res.send(err);
+            res.status(400).send(err);
     });
 });
 
@@ -87,14 +115,26 @@ router.post("/:annuncioId", async (req, res) => {
         const utente = await Utente.findById(req.body.id_utente);
         const annuncio = await Annuncio.findById(req.params.annuncioId);
 
-        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length > 0)
-            throw "sei gia' iscritto a questo annuncio";
+        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length > 0) {
+            res.status(400).json({
+                "message": "sei gia' iscritto a questo annuncio"
+            });
+            return;
+        }
 
-        if (annuncio.partecipanti.filter(e => e === utente.id).length > 0)
-            throw "sei gia' iscritto a questo annuncio";
+        if (annuncio.partecipanti.filter(e => e === utente.id).length > 0) {
+            res.status(400).json({
+                "message": "sei gia' iscritto a questo annuncio"
+            });
+            return;
+        }
 
-        if (annuncio.partecipanti.length >= annuncio.max_partecipanti)
-            throw "questo annuncio e' gia' pieno! impossibile iscriversi";
+        if (annuncio.partecipanti.length >= annuncio.max_partecipanti) {
+            res.status(400).json({
+                "message": "questo annuncio e' gia' pieno! impossibile iscriversi"
+            });
+            return;
+        }
 
         // specificare l'annuncio
         let query = {
@@ -128,7 +168,9 @@ router.post("/:annuncioId", async (req, res) => {
         // aggiungere l'annuncio alla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        res.status(210).json("success");
+        res.status(210).json({
+            "message": "success"
+        });
     } catch (err) {
         res.json({
             message: err
@@ -142,11 +184,19 @@ router.delete("/:annuncioId", async (req, res) => {
         const utente = await Utente.findById(req.body.id_utente);
         const annuncio = await Annuncio.findById(req.params.annuncioId);
 
-        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length === 0)
-            throw "non sei iscritto a questo annuncio";
+        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length === 0) {
+            res.status(400).json({
+                "message": "non sei iscritto a questo annuncio"
+            });
+            return;
+        }
 
-        if (annuncio.partecipanti.filter(e => e === utente.id).length === 0)
-            throw "non sei iscritto a questo annuncio";
+        if (annuncio.partecipanti.filter(e => e === utente.id).length === 0) {
+            res.status(400).json({
+                "message": "non sei iscritto a questo annuncio"
+            });
+            return;
+        }
 
         // specificare l'annuncio
         let query = {
@@ -180,7 +230,9 @@ router.delete("/:annuncioId", async (req, res) => {
         // togliere l'annuncio dalla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        res.status(210).json("success");
+        res.status(210).json({
+            "message": "success"
+        });
     } catch (err) {
         res.json({
             message: err
