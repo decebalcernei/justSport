@@ -11,6 +11,10 @@ on:
 
 jobs:
   build:
+    name: Get secrets
+    env:
+      DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+      SEGRETO: ${{ secrets.SEGRETO }}
 
     runs-on: ubuntu-latest
 
