@@ -24,16 +24,20 @@ router.get('', async (req, res) => {
 
     var query = {
         attrezzatura_necessaria: req.headers['attrezzatura_necessaria'],
-        costo: { $lte: req.headers['costo'] },
+        costo: {
+            $lte: req.headers['costo']
+        },
         sport: req.headers['sport'],
         citta: req.headers['citta']
     };
     try {
         const annunci = await Annuncio.find(query);
         console.log(annunci);
+        if (annunci.length == 0)
+            throw "niente annunci disponibili con quei parametri";
         res.status(201).json(annunci);
     } catch (err) {
-        res.json({
+        res.status(404).json({
             message: err
         });
     }

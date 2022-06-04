@@ -163,7 +163,11 @@ function loadAnnunci(token) {
                 'sport': sport
             },
         })
-        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then((resp) => {
+            if (resp.status == 404)
+                throw resp.statusText;
+            resp.json();
+        }) // Trasforma i dati della risposta in json
         .then(function (data) { // Abbiamo data, che possiamo manipolare
             console.log(data);
             return data.map((annuncio) => { // Applichiamo questa funzione anonima ad ogni elemento di `data`
@@ -182,7 +186,10 @@ function loadAnnunci(token) {
                 ul.appendChild(li);
             })
         })
-        .catch(error => console.error(error)); // Catturiamo eventuali errori
+        .catch(error => {
+            ul.textContent = error;
+            console.error(error)
+        }); // Catturiamo eventuali errori
     displayNomeUtente();
 }
 

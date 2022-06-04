@@ -27,8 +27,8 @@ describe("GET /api/v2/annunci", () => {
 		}
 	);
 
-	test("GET /annunci", async () => {
-		return request(app).get("/annunci").set("x-access-token", token).expect(201);
+	test("GET /annunci niente filtri", async () => {
+		return request(app).get("/annunci").set("x-access-token", token).expect(404);
 	});
 
 	test("POST /annunci niente parametri", async () => {
@@ -82,8 +82,22 @@ describe("GET /api/v2/annunci", () => {
 			"message": "success"
 		});
 	});
+
+	test("GET /annunci con filtri validi", async () => {
+		return request(app).get("/annunci").set({
+			"attrezzatura_necessaria": false,
+			"costo": 99999,
+			"sport": "Atletica",
+			"citta": "Ancona"
+		}).expect(201);
+	});
+
+	test("GET /annunci con filtri non validi", async () => {
+		return request(app).get("/annunci").set({
+			"attrezzatura_necessaria": false,
+			"costo": -1,
+			"sport": "Atletica",
+			"citta": "Ancona"
+		}).expect(404);
+	});
 });
-
-// vedi scheda su trello
-
-// asynchronous operations that weren't stopped in your tests

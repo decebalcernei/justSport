@@ -7,6 +7,10 @@
     "test": "jest --forceExit",
     "start": "nodemon index.js"
   },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/decebalcernei/justsport.git"
