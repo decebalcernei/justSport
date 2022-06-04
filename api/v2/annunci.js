@@ -3,14 +3,12 @@ const router = express.Router();
 const Annuncio = require('../../models/Annuncio'); // ci serve per interagire con il db
 const Utente = require('../../models/Utente');
 const controllo_token = require('../../controllo_token');
+const jwt = require("jsonwebtoken");
 
 // Restituisce tutti gli annunci
 router.get('', async (req, res) => {
     try {
         const annunci = await Annuncio.find();
-        let properties = Object.getOwnPropertyNames(res);
-        // nota che non ci sono mai `.status()` e `.json()`...
-        console.log(properties);
         res.status(201).json(annunci);
     } catch (err) {
         res.json({
@@ -36,6 +34,7 @@ router.post('', (req, res) => {
             res.status(403).json({
                 message: "token non valido"
             });
+            return;
         } else
             req.loggedUser = decoded;
     });
@@ -92,14 +91,26 @@ router.post("/:annuncioId", async (req, res) => {
         const utente = await Utente.findById(req.body.id_utente);
         const annuncio = await Annuncio.findById(req.params.annuncioId);
 
-        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length > 0)
-            throw "sei gia' iscritto a questo annuncio";
+        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length > 0) {
+            res.status(400).json({
+                "message": "sei gia' iscritto a questo annuncio"
+            });
+            return;
+        }
 
-        if (annuncio.partecipanti.filter(e => e === utente.id).length > 0)
-            throw "sei gia' iscritto a questo annuncio";
+        if (annuncio.partecipanti.filter(e => e === utente.id).length > 0) {
+            res.status(400).json({
+                "message": "sei gia' iscritto a questo annuncio"
+            });
+            return;
+        }
 
-        if (annuncio.partecipanti.length >= annuncio.max_partecipanti)
-            throw "questo annuncio e' gia' pieno! impossibile iscriversi";
+        if (annuncio.partecipanti.length >= annuncio.max_partecipanti) {
+            res.status(400).json({
+                "message": "questo annuncio e' gia' pieno! impossibile iscriversi"
+            });
+            return;
+        }
 
         // specificare l'annuncio
         let query = {
@@ -133,7 +144,9 @@ router.post("/:annuncioId", async (req, res) => {
         // aggiungere l'annuncio alla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        res.status(210).json("success");
+        res.status(210).json({
+            "message": "success"
+        });
     } catch (err) {
         res.json({
             message: err
@@ -147,11 +160,19 @@ router.delete("/:annuncioId", async (req, res) => {
         const utente = await Utente.findById(req.body.id_utente);
         const annuncio = await Annuncio.findById(req.params.annuncioId);
 
-        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length === 0)
-            throw "non sei iscritto a questo annuncio";
+        if (utente.iscrizione_annunci.filter(e => e === annuncio.id).length === 0) {
+            res.status(400).json({
+                "message": "non sei iscritto a questo annuncio"
+            });
+            return;
+        }
 
-        if (annuncio.partecipanti.filter(e => e === utente.id).length === 0)
-            throw "non sei iscritto a questo annuncio";
+        if (annuncio.partecipanti.filter(e => e === utente.id).length === 0) {
+            res.status(400).json({
+                "message": "non sei iscritto a questo annuncio"
+            });
+            return;
+        }
 
         // specificare l'annuncio
         let query = {
@@ -185,7 +206,9 @@ router.delete("/:annuncioId", async (req, res) => {
         // togliere l'annuncio dalla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        res.status(210).json("success");
+        res.status(210).json({
+            "message": "success"
+        });
     } catch (err) {
         res.json({
             message: err
