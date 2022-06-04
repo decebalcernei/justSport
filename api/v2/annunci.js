@@ -33,8 +33,12 @@ router.get('', async (req, res) => {
     try {
         const annunci = await Annuncio.find(query);
         console.log(annunci);
-        if (annunci.length == 0)
-            throw "niente annunci disponibili con quei parametri";
+        if (annunci.length == 0) {
+            res.status(404).json({
+                message: "niente annunci disponibili con quei parametri"
+            });
+            return;
+        }
         res.status(201).json(annunci);
     } catch (err) {
         res.status(404).json({

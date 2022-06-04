@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../index');
-const jwt = require("jsonwebtoken"); // used to create, sign, and verify tokens
+const jwt = require("jsonwebtoken");
 const express = require("express");
 const mongoose = require('mongoose');
 
