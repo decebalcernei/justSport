@@ -110,8 +110,10 @@ router.post('', (req, res) => {
             result = await Utente.updateOne(query, updateDocument);
 
             res.status(202).json(annuncio._id);
+            return;
         } else
-            res.status(400).send(err);
+            res.status(400).json(err);
+            return;
     });
 });
 
@@ -236,7 +238,7 @@ router.delete("/:annuncioId", async (req, res) => {
         // togliere l'annuncio dalla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        res.status(210).json({
+        res.status(211).json({
             "message": "success"
         });
     } catch (err) {
@@ -251,7 +253,7 @@ router.delete("/:annuncioId", async (req, res) => {
 router.get('/:annuncioId', async (req, res) => {
     try {
         const annuncio = await Annuncio.findById(req.params.annuncioId);
-        res.status(203).json(annuncio);
+        res.status(210).json(annuncio);
     } catch (err) {
         res.json({
             message: err

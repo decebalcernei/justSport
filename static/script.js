@@ -119,6 +119,7 @@ function add(token) {
                 "x-access-token": loggedUser.token
             },
             body: JSON.stringify({
+                autore: parseJwt(token)._id,
                 min_partecipanti: min_partecipanti,
                 max_partecipanti: max_partecipanti,
                 attrezzatura_necessaria: attrezzatura_necessaria,
@@ -129,7 +130,7 @@ function add(token) {
         })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(() => {
-            window.location.href = "visualizzazione_annunci.html?token=" + loggedUser.token;
+            window.location.href = "index.html?token=" + loggedUser.token;
         })
         .catch(error => console.error(error));
 }

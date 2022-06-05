@@ -7,7 +7,8 @@
 </style>
 
 <html>
-    <body>
+    <body onload="displayNomeUtente()">
+        <p id="nome_utente"></p>
         <button onclick="to_home()">Home</button>
         <center>
             <h1>Crea Annuncio</h1>
@@ -82,7 +83,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" onclick="add()">Aggiungi Annuncio</button>
+                            <button type="button" onclick="add(token)">Aggiungi Annuncio</button>
                         </td>
                     </tr>
                 </form>
@@ -90,6 +91,9 @@
         </center>
         <script src="script.js"></script>
         <script>
+            const param_string = window.location.search;
+            const URL_params = new URLSearchParams(param_string);
+            var token = URL_params.get("token");
             function to_home() {
                 window.location.href = "index.html?token=" + token;
             }
