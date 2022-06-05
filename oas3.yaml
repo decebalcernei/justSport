@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: "Just Sport OpenAPI 3.0"
+  description: API per gestire annunci sportivi
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Localhost
+paths:
+  /annunci:
+    get:
+      summary: GET annunci
+      description: Mostrare tutti gli annunci disponibili.
+      responses:
+        '201':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Annuncio'
+
+    post:
+      summary: POST annunci
+      description: Aggiungere un annuncio alla lista
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Annuncio'
+      responses:
+        '202':
+          description: Created
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id_annuncio:
+                    type: string
+                    example: '629ccb21592531d39ad2b9cd'
+                    description: "id dell'annuncio creato"
+
+  /annunci/{annuncioId}:
+    get:
+      summary: GET annunci/:annuncioId
+      description: Mostrare l'annuncio indicato
+      parameters:
+      - name: annuncioId
+        in: path
+        required: true
+        description: Parametro indicante l'id dell'annuncio
+      responses:
+        '210':
+          description: Annuncio creato
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Annuncio'
+    
+    post:
+      summary: POST annunci/:annuncioId
+      description: Iscriversi ad annuncio
+      parameters:
+      - name: annuncioId
+        in: path
+        required: true
+        description: Parametro indicante l'id dell'annuncio
+      responses:
+        '211':
+          description: Aggiunto ai partecipanti
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'success'
+
+  /utenti:
+    post:
+      summary: POST utenti
+      description: Aggiungere un utente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Utente'
+      responses:
+        '221':
+          description: Utente aggiunto
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utente'
+
+components:
+  schemas:
+    Utente:
+      type: object
+      properties:
+        username:
+          type: string
+          example: 'stipe'
+        password:
+          type: string
+          example: 'miocic'
+        annunci_pubblicati:
+          type: array
+        iscrizione_annunci:
+          type: array
+      required:
+        - username
+        - password
+    Annuncio:
+      type: object
+      properties:
+        autore:
+          type: string
+          description: 'id utente autore'
+          example:
+            '628bf2a29c6b6502e921e276'
+        sport:
+          type: string
+          example: 'Tennis'
+        partecipanti:
+          type: array
+          description: inizializzato ad array vuoto, contiene tutti i partecipanti all'evento
+        min_partecipanti:
+          type: number
+          example: 2
+        max_partecipanti:
+          type: number
+          example: 5
+        costo:
+          type: number
+          example: 0
+        data: 
+          type: date
+          description: fornita automaticamene da date.now
+        citta:
+          type: string
+          example: Trento
