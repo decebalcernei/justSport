@@ -78,7 +78,7 @@ describe("GET /api/v2/annunci", () => {
 	test("DELETE /annunci/id non iscritto", async () => {
 		return request(app).delete("/annunci/629b1b129cbdba50bc1e1217").send({
 			"id_utente": "62874b676ee3c24b58d7693a"
-		}).expect(210, {
+		}).expect(211, {
 			"message": "success"
 		});
 	});
