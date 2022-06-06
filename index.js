@@ -41,8 +41,10 @@ mongoose.connect(process.env.DB_CONNECTION, (res) => {
 
 app.get('/favicon.ico', (req, res) => res.status(204));
 
+var port = process.env.PORT || 3000;
+
 if (process.env.NODE_ENV !== 'test') {
-	app.listen(3000);
+	app.listen(port);
   }
 
 module.exports = app;
