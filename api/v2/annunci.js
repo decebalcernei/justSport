@@ -5,19 +5,6 @@ const Utente = require('../../models/Utente');
 const controllo_token = require('../../controllo_token');
 const jwt = require("jsonwebtoken");
 
-
-// Restituisce tutti gli annunci
-router.get('tutti', async (req, res) => {
-    try {
-        const annunci = await Annuncio.find();
-        res.status(201).json(annunci);
-    } catch (err) {
-        res.json({
-            message: err
-        });
-    }
-});
-
 //restituisce annunci in base al filtro
 router.get('', async (req, res) => {
     // query
@@ -30,6 +17,7 @@ router.get('', async (req, res) => {
         sport: req.headers['sport'],
         citta: req.headers['citta']
     };
+
     try {
         const annunci = await Annuncio.find(query);
         console.log(annunci);
@@ -113,7 +101,7 @@ router.post('', (req, res) => {
             return;
         } else
             res.status(400).json(err);
-            return;
+        return;
     });
 });
 
@@ -180,7 +168,7 @@ router.post("/:annuncioId", async (req, res) => {
             "message": "success"
         });
     } catch (err) {
-        res.json({
+        res.status(500).json({
             message: err
         });
     }
@@ -242,7 +230,7 @@ router.delete("/:annuncioId", async (req, res) => {
             "message": "success"
         });
     } catch (err) {
-        res.json({
+        res.status(500).json({
             message: err
         });
     }

@@ -186,7 +186,7 @@ function loadAnnunci(token) {
         .then((resp) => {
             if (resp.status == 404)
                 throw resp.statusText;
-            resp.json();
+            return resp.json();
         }) // Trasforma i dati della risposta in json
         .then(function (data) { // Abbiamo data, che possiamo manipolare
             console.log(data);
