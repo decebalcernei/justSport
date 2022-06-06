@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <script src="script.js"></script>
+        <title>Messaggio</title>
+    </head>
+    <body onload="messaggio()">
+        <center>
+            <h3 id = 'messaggio'></h3><br>
+        
+            <p>Torna alla Home: </p>
+            <button onclick="to_home()">Home</button>
+        </center>
+        <script>
+            const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          var token = urlParams.get("token"); // salviamo il token per richieste in futuro
+
+          function to_home() {
+              window.location.href = "index.html?token=" + token;
+          }
+        </script>
+    </body>
+</html>

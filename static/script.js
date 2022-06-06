@@ -77,6 +77,25 @@ function login() {
     }
 }
 
+function logout(token) {
+    return fetch("../autenticazione", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: token
+        })
+    })
+    .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+    .then(function (data) { // Data da manipolare come vogliamo
+    // rimuoviamo i dati dell'utente
+    loggedUser.token = data.token;
+    })
+    .then(() => loggedUser.token).catch(error => console.error(error));
+}
+
+
 function registrazione() {
 
     let username = document.getElementById("username").value;
@@ -130,7 +149,7 @@ function add(token) {
         })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
         .then(() => {
-            window.location.href = "index.html?token=" + loggedUser.token;
+            to_messaggio('annuncioAggiunto', loggedUser.token);
         })
         .catch(error => console.error(error));
 }
@@ -354,7 +373,7 @@ function displayNomeUtente() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const token = urlParams.get("token");
-    if (token != null) {
+    if (token !== 'null' && token != null) {
         nome_utente = parseJwt(token).username;
         p.textContent = 'Ciao, ';
         let a = document.createElement('a');
@@ -363,6 +382,35 @@ function displayNomeUtente() {
         p.appendChild(a);
     }
 }
+
+function to_messaggio(beacon, token){
+    window.location.href = "messaggio.html?beacon=" + beacon + "&token=" + token;
+}
+
+function messaggio(){
+    const param_string = window.location.search;
+    const URL_params = new URLSearchParams(param_string);
+    var beacon =  URL_params.get("beacon");
+    const h3 = document.getElementById('messaggio');
+    switch (beacon) {
+        case 'annuncioAggiunto':
+            h3.textContent = 'Annuncio aggiunto correttamente';
+            break;
+        case 'registrazione':
+            h3.textContent = 'Ti sei registrato correttamente';
+            break;
+        case 'login':
+            h3.textContent = 'Hai eseguito il login correttamente';
+            break;
+        case 'logout':
+            h3.textContent = 'Hai eseguito il logout correttamente';
+            break;
+        default:
+            h3.textContent = 'Si è verificato un errore inatteso';
+            console.log('damn he is good');
+      }
+}
+
 
 function mostraPassword() {
     var x = document.getElementById("password");

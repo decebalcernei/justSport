@@ -50,6 +50,7 @@
           async function login_button() {
               registrazione(); // salva le credenziali nel database
               token = await login(); // salvare il token
+              to_messaggio('login', token);
           }
 
           function visualizza_annunci() {

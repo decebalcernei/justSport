@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Just Sport - Login</title>
+  </head>
+
+  <body>
+    <button onclick="to_home()">Home</button>
+    <center>
+        <p>Premi il pulsante per effettuare il logout:</p>
+
+        <button type="button" onclick="logout_button()">LogOut</button>
+    </center>
+    <script src="script.js"></script>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var token = urlParams.get("token"); // salviamo il token per richieste in futuro
+
+        function logout_button(token) {
+            logout(token);
+            token = "null";
+            to_messaggio('logout', token);
+        }
+            
+        function to_home(token) {
+            window.location.href = "index.html?token=" + token;
+        }
+    </script>
+  </body>
+</html>

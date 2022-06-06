@@ -7,6 +7,7 @@
 
 <body onload="loadSezioneUtente(token)">
     <p id="nome_utente"></p>
+    <button onclick="to_logout()">Logout</button>
     <h2>Annunci ai quali sei iscritto:</h2><br>
     <ul id="iscrizione_annunci"></ul>
 
@@ -18,6 +19,9 @@
     const param_string = window.location.search;
     const URL_params = new URLSearchParams(param_string);
     var token = URL_params.get("token");
+    function to_logout() {
+        window.location.href = "logout.html?token=" + token;
+    }
 </script>
 
 </html>

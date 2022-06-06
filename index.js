@@ -20,10 +20,6 @@ const annunciRoutes = require('./api/v2/annunci');
 const utentiRoutes = require('./api/v2/utenti');
 const autenticazioneRoutes = require("./api/v2/autenticazione");
 
-// routes per cui serve il token (middleware)
-//app.use('/utenti', controlloToken);
-//app.use('/annunci', controlloToken);
-
 // autenticazione
 app.use("/autenticazione", autenticazioneRoutes);
 
