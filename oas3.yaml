@@ -6,16 +6,29 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:3000/api/v1
+  - url: http://localhost:3000/api/v2
     description: Localhost
 paths:
   /annunci:
     get:
       summary: GET annunci
-      description: Mostrare tutti gli annunci disponibili.
+      description: Fornisce la lista di annunci in base ai filtri
+      parameters:
+      - name: attrezzatura_necessaria
+        in: path
+        required: true
+      - name: costo
+        in: path
+        required: true
+      - name: sport
+        in: path
+        required: true
+      - name: citta
+        in: path
+        required: true
       responses:
         '201':
-          description: OK
+          description: Lista annunci
           headers: {}
           content:
             application/json:
@@ -84,6 +97,51 @@ paths:
                     type: string
                     example: 'success'
 
+    delete:
+      summary: DELETE annunci/:annuncioId
+      description: Disiscriversi da annuncio
+      parameters:
+      - name: annuncioId
+        in: path
+        required: true
+        description: Parametro indicante l'id dell'annuncio
+      responses:
+        '211':
+          description: Tolto dai partecipanti
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "success"
+        '400':
+          description: Utente non è iscritto all'annuncio da cui vuole disiscriversi
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "non sei iscritto a questo annuncio"
+        '500':
+          description: Errore della database
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Connection to server lost"
+ 
+     
+
   /utenti:
     post:
       summary: POST utenti
@@ -102,6 +160,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Utente'
+  
+  /autenticazione:
+    post:
+      summary: POST autenticazione
+      description: Assegna un token all'utente
+      parameters:
+      - name: username
+        in: path
+        required: true
+      - name: password
+        in: path
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'stipe'
+                password:
+                  type: string
+                  example: 'miocic'
+      responses:
+        '240':
+          description: Token assegnato
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+
 
 components:
   schemas:
@@ -121,6 +213,7 @@ components:
       required:
         - username
         - password
+    
     Annuncio:
       type: object
       properties:
@@ -150,3 +243,9 @@ components:
         citta:
           type: string
           example: Trento
+    
+    Token:
+      type: string
+      properties:
+        token:
+          type: string
