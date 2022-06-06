@@ -30,6 +30,7 @@ router.get('', async (req, res) => {
         sport: req.headers['sport'],
         citta: req.headers['citta']
     };
+
     try {
         const annunci = await Annuncio.find(query);
         console.log(annunci);
@@ -113,7 +114,7 @@ router.post('', (req, res) => {
             return;
         } else
             res.status(400).json(err);
-            return;
+        return;
     });
 });
 

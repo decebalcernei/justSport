@@ -12,14 +12,14 @@ router.post("", async (req, res) => {
 	}).exec();
 
 	if (!user) {
-		res.json({
+		res.status(404).json({
 			message: "utente non esiste"
 		});
 		return;
 	}
 
 	if (user.password != req.body.password) {
-		res.json({
+		res.status(401).json({
 			message: "password sbagliata"
 		});
 		return;
@@ -39,7 +39,7 @@ router.post("", async (req, res) => {
 
 	var token = jwt.sign(dati, process.env.SEGRETO, impostazioni); // creazione token
 
-	res.json({
+	res.status(200).json({
 		message: "ecco a te un token",
 		token: token,
 		username: user.username,
