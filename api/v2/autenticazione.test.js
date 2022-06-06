@@ -48,6 +48,6 @@ describe("POST /api/v2/autenticazione", () => {
 		return request(app).post("/autenticazione").set("x-access-token", token).send({
 			"username": "admin",
 			"password": "admin"
-		}).expect(200);
+		}).expect(240);
 	});
 });
