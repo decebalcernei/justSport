@@ -168,7 +168,7 @@ router.post("/:annuncioId", async (req, res) => {
             "message": "success"
         });
     } catch (err) {
-        res.json({
+        res.status(500).json({
             message: err
         });
     }
@@ -230,7 +230,7 @@ router.delete("/:annuncioId", async (req, res) => {
             "message": "success"
         });
     } catch (err) {
-        res.json({
+        res.status(500).json({
             message: err
         });
     }
