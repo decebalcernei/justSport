@@ -5,19 +5,6 @@ const Utente = require('../../models/Utente');
 const controllo_token = require('../../controllo_token');
 const jwt = require("jsonwebtoken");
 
-
-// Restituisce tutti gli annunci
-router.get('tutti', async (req, res) => {
-    try {
-        const annunci = await Annuncio.find();
-        res.status(201).json(annunci);
-    } catch (err) {
-        res.json({
-            message: err
-        });
-    }
-});
-
 //restituisce annunci in base al filtro
 router.get('', async (req, res) => {
     // query
