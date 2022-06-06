@@ -39,7 +39,7 @@ router.post("", async (req, res) => {
 
 	var token = jwt.sign(dati, process.env.SEGRETO, impostazioni); // creazione token
 
-	res.status(200).json({
+	res.status(240).json({
 		message: "ecco a te un token",
 		token: token,
 		username: user.username,
