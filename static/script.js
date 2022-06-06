@@ -78,7 +78,7 @@ function login() {
 }
 
 function logout(token) {
-    return fetch("../autenticazione", {
+    fetch("../autenticazione", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"

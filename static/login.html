@@ -48,7 +48,8 @@
           
           async function login_button() {
               token = await login(); // salvare il token
-              to_messaggio('login', token);
+              if(token != undefined)
+                to_messaggio('login', token);
           }
           function to_home() {
               window.location.href = "index.html?token=" + token;

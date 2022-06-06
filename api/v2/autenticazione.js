@@ -53,8 +53,7 @@ router.delete("", async (req, res) => {
 	token = req.body.token;
 	// in realtà non facciamo nulla, mettiamo token=null e basta
 	token = null;
-	console.log('annullato il token');
-	res.json({
+	res.status(250).json({
 		message: "logout eseguito correttamente",
 		token: token
 	});
