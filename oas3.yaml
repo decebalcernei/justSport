@@ -106,7 +106,7 @@ paths:
         required: true
         description: Parametro indicante l'id dell'annuncio
       responses:
-        '211':
+        '221':
           description: Tolto dai partecipanti
           headers: {}
           content:
@@ -153,7 +153,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Utente'
       responses:
-        '221':
+        '231':
           description: Utente aggiunto
           headers: {}
           content:
@@ -221,10 +221,10 @@ components:
           type: string
           description: 'id utente autore'
           example:
-            '628bf2a29c6b6502e921e276'
+            '629f97e3cb7c9b83eb290d7e'
         sport:
           type: string
-          example: 'Tennis'
+          example: 'Hockey'
         partecipanti:
           type: array
           description: inizializzato ad array vuoto, contiene tutti i partecipanti all'evento
