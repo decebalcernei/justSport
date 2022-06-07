@@ -137,6 +137,7 @@ function add(token) {
     var costo = document.getElementById("costo").value;
     var citta = document.getElementById("citta").value;
     var sport = document.getElementById("sport").value;
+    var autore = parseJwt(token).id;
 
     return fetch('../annunci', {
             method: 'POST',
@@ -145,7 +146,7 @@ function add(token) {
                 "x-access-token": loggedUser.token
             },
             body: JSON.stringify({
-                autore: parseJwt(token)._id,
+                autore: autore,
                 min_partecipanti: min_partecipanti,
                 max_partecipanti: max_partecipanti,
                 attrezzatura_necessaria: attrezzatura_necessaria,
@@ -202,7 +203,6 @@ function loadAnnunci(token) {
             return resp.json();
         }) // Trasforma i dati della risposta in json
         .then(function (data) { // Abbiamo data, che possiamo manipolare
-            console.log(data);
             return data.map((annuncio) => { // Applichiamo questa funzione anonima ad ogni elemento di `data`
                 let li = document.createElement('li');
                 let span = document.createElement('span');
@@ -246,7 +246,6 @@ function detailAnnuncio(id_annuncio, token) {
         })
         .then((resp) => resp.json())
         .then(function (data) {
-            console.log(data);
 
             let span = document.createElement('span');
 

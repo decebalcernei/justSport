@@ -20,7 +20,6 @@ router.get('', async (req, res) => {
 
     try {
         const annunci = await Annuncio.find(query);
-        console.log(annunci);
         if (annunci.length == 0) {
             res.status(404).json({
                 message: "niente annunci disponibili con quei parametri"
@@ -67,6 +66,7 @@ router.post('', (req, res) => {
         citta: req.body.citta,
         sport: req.body.sport
     });
+
 
     if (annuncio.min_partecipanti == null)
         annuncio.min_partecipanti = 2;
@@ -149,7 +149,6 @@ router.post("/:annuncioId", async (req, res) => {
         // aggiungere l'utente ai partecipanti dell'annuncio
         let result = await Annuncio.updateOne(query, updateDocument);
 
-        console.log(result);
 
         // specificare l'utente
         query = {
@@ -212,7 +211,6 @@ router.delete("/:annuncioId", async (req, res) => {
         // togliere l'utente dai partecipanti dell'annuncio
         let result = await Annuncio.updateOne(query, updateDocument);
 
-        console.log(result);
 
         // specificare l'utente
         query = {

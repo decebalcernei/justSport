@@ -30,6 +30,7 @@
 <body onload="displayNomeUtente()">
     <p id="nome_utente"></p>
     <button onclick="to_login()">Login</button>
+    <button onclick="to_signin()">Registrati</button>
     
     <div class="classe_body">
         <div class="cima">
@@ -114,6 +115,9 @@
         
             function to_login() {
                 window.location.href = "login.html?token=" + token;
+            }
+            function to_signin() {
+                window.location.href = "registrazione.html?token=" + token;
             }
         
             function inserisci_annuncio() {
