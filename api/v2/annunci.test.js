@@ -20,7 +20,7 @@ describe("Test su annunci", () => {
 
 	var token = jwt.sign({
 			username: "admin",
-			id: "62874b676ee3c24b58d7693a"
+			id: "629f973acb7c9b83eb290d79"
 		},
 		process.env.SEGRETO, {
 			expiresIn: 86400
@@ -31,36 +31,36 @@ describe("Test su annunci", () => {
 
 		// disiscrivere utente non iscritto
 		test("DELETE /annunci/id non iscritto", async () => {
-			return request(app).delete("/annunci/629b1b129cbdba50bc1e1217").send({
-				"id_utente": "62874b676ee3c24b58d7693a"
+			return request(app).delete("/annunci/629f983acb7c9b83eb290d82").send({
+				"id_utente": "629f9a085e1b36affa738fb4"
 			}).expect(400, {
 				"message": "non sei iscritto a questo annuncio"
 			});
 		});
 
-		// iscrivere ad annuncio a cui utente non iscritto
+		// iscrivere ad annuncio un utente non iscritto
 		test("POST /annunci/id non iscritto", async () => {
-			return request(app).post("/annunci/629b1b129cbdba50bc1e1217").send({
-				"id_utente": "62874b676ee3c24b58d7693a"
-			}).expect(210, {
+			return request(app).post("/annunci/629f983acb7c9b83eb290d82").send({
+				"id_utente": "629f973acb7c9b83eb290d79"
+			}).expect(211, {
 				"message": "success"
 			});
 		});
 
-		// iscrivere ad annuncio a cui utente gia' iscritto
-		test("POST /annunci/id non iscritto", async () => {
-			return request(app).post("/annunci/629b1b129cbdba50bc1e1217").send({
-				"id_utente": "62874b676ee3c24b58d7693a"
+		// iscrivere ad annuncio un utente gia' iscritto
+		test("POST /annunci/id già iscritto", async () => {
+			return request(app).post("/annunci/629f9a265e1b36affa738fb8").send({
+				"id_utente": "629f9a085e1b36affa738fb4"
 			}).expect(400, {
 				"message": "sei gia' iscritto a questo annuncio"
 			});
 		});
 
-		// disiscrivere da annuncio a cui utente iscritto
+		// disiscrivere da annuncio un utente iscritto
 		test("DELETE /annunci/id non iscritto", async () => {
-			return request(app).delete("/annunci/629b1b129cbdba50bc1e1217").send({
-				"id_utente": "62874b676ee3c24b58d7693a"
-			}).expect(211, {
+			return request(app).delete("/annunci/629f983acb7c9b83eb290d82").send({
+				"id_utente": "629f973acb7c9b83eb290d79"
+			}).expect(221, {
 				"message": "success"
 			});
 		});
@@ -95,8 +95,8 @@ describe("Test su annunci", () => {
 			return request(app).get("/annunci").set({
 				"attrezzatura_necessaria": false,
 				"costo": 99999,
-				"sport": "Atletica",
-				"citta": "Ancona"
+				"sport": "Calcio",
+				"citta": "Trento"
 			}).expect(201);
 		});
 

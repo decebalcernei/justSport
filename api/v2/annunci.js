@@ -165,7 +165,7 @@ router.post("/:annuncioId", async (req, res) => {
         // aggiungere l'annuncio alla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        res.status(210).json({
+        res.status(211).json({
             "message": "success"
         });
     } catch (err) {
@@ -227,7 +227,7 @@ router.delete("/:annuncioId", async (req, res) => {
         // togliere l'annuncio dalla lista di annunci a cui l'utente e' iscritto
         result = await Utente.updateOne(query, updateDocument);
 
-        res.status(211).json({
+        res.status(221).json({
             "message": "success"
         });
     } catch (err) {

@@ -6,7 +6,7 @@ const Utente = require('../../models/Utente');
 router.get('/:utenteId', async (req, res) => {
     try {
         const utente = await Utente.findById(req.params.utenteId);
-        res.status(211).json(utente);
+        res.status(230).json(utente);
     } catch (err) {
         res.status(404).json({
             message: "utente inesistente"
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
     }
     try {
         const utenteSalvato = await utente.save();
-        res.status(201).json(utenteSalvato)
+        res.status(231).json(utenteSalvato)
     } catch (err) {
         res.status(400).json({
             message: err
