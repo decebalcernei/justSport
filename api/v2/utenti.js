@@ -22,6 +22,16 @@ router.post('/', async (req, res) => {
         username: req.body.username,
         password: req.body.password
     });
+    let u = await Utente.find({
+        "username": req.body.username
+    });
+    if (u.length != 0) {
+        console.error("registrazione come utente che esiste gia'");
+        res.status(403).json({
+            message: "registrazione come utente che esiste gia'"
+        });
+        return;
+    }
     try {
         const utenteSalvato = await utente.save();
         res.status(201).json(utenteSalvato)

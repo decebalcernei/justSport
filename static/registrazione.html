@@ -1,68 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <title>Just Sport - Home</title>
 
-      <style>
-        .classe_body{
-          padding: 70px 0;
-          text-align: center;
-        }
-        .cima{
-          padding: 7px 0;
-          text-align: center;
+<head>
+    <title>Just Sport - Home</title>
+
+    <style>
+        .classe_body {
+            padding: 70px 0;
+            text-align: center;
         }
 
-        .form{
-          padding: 7px 0;
-          text-align: center;
+        .cima {
+            padding: 7px 0;
+            text-align: center;
         }
-      </style>
-    </head>
-  </head>
 
-  <body>
-    <button onclick="login_page()">Login</button>
+        .form {
+            padding: 7px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="to_home()">Home</button>
     <div class="classe_body">
-      <div class="cima">
-        <h1>Just Sport</h1></br>
-        <p>
-          Sei pregato di inserire un utente e una password per procedere
-          con la registrazione
-        </p>
-      </div>  
-      <div class="form">
-          <form action="/utenti" method="post" name="loginform" id="loginform">
-              <input name="username" value="" id="username" / placeholder="Username">
-              <input type="password" name="password" value="" id="password" / placeholder="Passsword">
-              <input type="checkbox" onclick="mostraPassword()">Mostra Password
-              <button type="button" onclick="login_button()">Registrati</button>
-          </form>
-      </div>
-      <p id="conferma"></p>
-      <button onclick="visualizza_annunci()">Vai alla pagina degli annunci</button>
-      <script src="script.js"></script>
-      <script>
-          const queryString = window.location.search;
-          const urlParams = new URLSearchParams(queryString);
-          var token = urlParams.get("token"); // salviamo il token per richieste in futuro
+        <div class="cima">
+            <h1>Just Sport</h1></br>
+            <p>
+                Sei pregato di inserire un utente e una password per procedere
+                con la registrazione
+            </p>
+        </div>
+        <div class="form">
+            <form action="/utenti" method="post" name="loginform" id="loginform">
+                <input name="username" value="" id="username" / placeholder="Username">
+                <input type="password" name="password" value="" id="password" / placeholder="Passsword">
+                <input type="checkbox" onclick="mostraPassword()">Mostra Password
+                <button type="button" onclick="registration_button()">Registrati</button>
+            </form>
+        </div>
+        <p id="conferma"></p>
+        <button onclick="to_home()">Vai alla pagina degli annunci</button>
+        <script src="script.js"></script>
+        <script>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            var token = urlParams.get("token"); // salviamo il token per richieste in futuro
 
-          async function login_button() {
-              registrazione(); // salva le credenziali nel database
-              token = await login(); // salvare il token
-              if(token != undefined)
-                to_messaggio('registrazione', token);
-          }
+            async function registration_button() {
+                let reg = await registrazione(); // salva le credenziali nel database
+                console.log(reg);
+                if (token != undefined) {
+                    document.getElementById("conferma").textContent = "Registrazione effettuata";
+                    to_messaggio('registrazione', token);
+                } else
+                    document.getElementById("conferma").textContent =
+                    "Si e' verificato un errore durante la registrazione.";
+            }
 
-          function visualizza_annunci() {
-              // passiamo il token come parametro nell'URL (BRUTTISSIMO)
-              window.location.href = "/index.html?token=" + token;
-          }
-          
-          function login_page(){
-            window.location.href = "/login.html?token=" + token;
-          }
-      </script>
+            function to_home() {
+                window.location.href = "/index.html?token=" + token;
+            }
+        </script>
     </div>
-  </body>
+</body>
+
 </html>

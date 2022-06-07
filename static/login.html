@@ -1,60 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <title>Just Sport - Login</title>
 
-      <style>
-        .classe_body{
-          padding: 70px 0;
-          text-align: center;
-        }
-        .cima{
-          padding: 7px 0;
-          text-align: center;
+<head>
+    <title>Just Sport - Login</title>
+
+    <style>
+        .classe_body {
+            padding: 70px 0;
+            text-align: center;
         }
 
-        .form{
-          padding: 7px 0;
-          text-align: center;
+        .cima {
+            padding: 7px 0;
+            text-align: center;
         }
-      </style>
-    </head>
-  </head>
 
-  <body>
+        .form {
+            padding: 7px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+</head>
+
+<body>
     <button onclick="to_home()">Home</button>
     <div class="classe_body">
-      <div class="cima">
-        <h1>Just Sport</h1></br>
-        <p>
-          Sei pregato di inserire il nome utente e la password per procedere
-          con il login
-        </p>
-      </div>
-      <div class="form">
-          <form action="/utenti" method="post" name="loginform" id="loginform">
-              <input name="username" value="" id="username" / placeholder="Username">
-              <input type="password" name="password" value="" id="password" / placeholder="Passsword">
-              <input type="checkbox" onclick="mostraPassword()">Mostra Password
-              <button type="button" onclick="login_button()">LogIn</button>
-          </form>
-      </div>
-      <p id="conferma"></p>
-      <script src="script.js"></script>
-      <script>
-          const queryString = window.location.search;
-          const urlParams = new URLSearchParams(queryString);
-          var token = urlParams.get("token"); // salviamo il token per richieste in futuro
-          
-          async function login_button() {
-              token = await login(); // salvare il token
-              if(token != undefined)
-                to_messaggio('login', token);
-          }
-          function to_home() {
-              window.location.href = "index.html?token=" + token;
-          }
-      </script>
+        <div class="cima">
+            <h1>Just Sport</h1></br>
+            <p>
+                Sei pregato di inserire il nome utente e la password per procedere
+                con il login
+            </p>
+        </div>
+        <div class="form">
+            <form action="/utenti" method="post" name="loginform" id="loginform">
+                <input name="username" value="" id="username" / placeholder="Username">
+                <input type="password" name="password" value="" id="password" / placeholder="Passsword">
+                <input type="checkbox" onclick="mostraPassword()">Mostra Password
+                <button type="button" onclick="login_button()">LogIn</button>
+            </form>
+        </div>
+        <p id="conferma"></p>
+        <script src="script.js"></script>
+        <script>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            var token = urlParams.get("token"); // salviamo il token per richieste in futuro
+
+            async function login_button() {
+                token = await login(); // salvare il token
+                if (token != undefined) {
+                    document.getElementById("conferma").textContent = "Login effettuato";
+                    to_messaggio('login', token);
+                } else
+                    document.getElementById("conferma").textContent =
+                    "Le credenziali che hai inserito non sono valide.";
+            }
+
+            function to_home() {
+                window.location.href = "index.html?token=" + token;
+            }
+        </script>
     </div>
-  </body>
+</body>
+
 </html>

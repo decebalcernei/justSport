@@ -7,96 +7,104 @@
 </style>
 
 <html>
-    <body onload="displayNomeUtente()">
-        <p id="nome_utente"></p>
-        <button onclick="to_home()">Home</button>
-        <center>
-            <h1>Crea Annuncio</h1>
-            <table>
-                <form action="/annunci" method="post">
-                    <tr>
-                        <td>
-                            <label>Partecipanti minimi</label>
-                        </td>
-                        <td>
-                            <input value="" id="min_partecipanti">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Partecipanti massimi</label>
-                        </td>
-                        <td>
-                            <input value="" id="max_partecipanti">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Attrezzatura Necessaria</label>
-                        </td>
-                        <td>
-                            <select value="" id="attrezzatura_necessaria">
-                                <option value="false">No</option>
-                                <option value="true">Si</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Costo</label>
-                        </td>
-                        <td>
-                            <input value="" id="costo">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Città</label>
-                        </td>
-                        <td>
-                            <select value="" id="citta">
-                                <option value="Ancona">Ancona</option>
-                                <option value="Bolzano">Bolzano</option>
-                                <option value="Brescia">Brescia</option>
-                                <option value="Milano">Milano</option>
-                                <option value="Torino">Torino</option>
-                                <option value="Trento">Trento</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Sport</label>
-                        </td>
-                        <td>
-                            <select value="" id="sport">
-                                <option value="Atletica">Atletica</option>
-                                <option value="Baseball">Baseball</option>
-                                <option value="Basket">Basket</option>
-                                <option value="Calcio">Calcio</option>
-                                <option value="Danza">Danza</option>
-                                <option value="Hockey">Hockey</option>
-                                <option value="Sci">Sci</option>
-                                <option value="Tennis">Tennis</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="button" onclick="add(token)">Aggiungi Annuncio</button>
-                        </td>
-                    </tr>
-                </form>
-            </table>
-        </center>
-        <script src="script.js"></script>
-        <script>
-            const param_string = window.location.search;
-            const URL_params = new URLSearchParams(param_string);
-            var token = URL_params.get("token");
-            function to_home() {
-                window.location.href = "index.html?token=" + token;
-            }
-        </script>
-    </body>
+
+<body onload="displayNomeUtente()">
+    <p id="nome_utente"></p>
+    <button onclick="to_home()">Home</button>
+    <center>
+        <h1>Crea Annuncio</h1>
+        <table>
+            <form action="/annunci" method="post">
+                <tr>
+                    <td>
+                        <label>Partecipanti minimi</label>
+                    </td>
+                    <td>
+                        <input value="" id="min_partecipanti">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Partecipanti massimi</label>
+                    </td>
+                    <td>
+                        <input value="" id="max_partecipanti">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Attrezzatura Necessaria</label>
+                    </td>
+                    <td>
+                        <select value="" id="attrezzatura_necessaria">
+                            <option value="false">No</option>
+                            <option value="true">Si</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Costo</label>
+                    </td>
+                    <td>
+                        <input value="" id="costo">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Città</label>
+                    </td>
+                    <td>
+                        <select value="" id="citta">
+                            <option value="Ancona">Ancona</option>
+                            <option value="Bolzano">Bolzano</option>
+                            <option value="Brescia">Brescia</option>
+                            <option value="Milano">Milano</option>
+                            <option value="Torino">Torino</option>
+                            <option value="Trento">Trento</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Sport</label>
+                    </td>
+                    <td>
+                        <select value="" id="sport">
+                            <option value="Atletica">Atletica</option>
+                            <option value="Baseball">Baseball</option>
+                            <option value="Basket">Basket</option>
+                            <option value="Calcio">Calcio</option>
+                            <option value="Danza">Danza</option>
+                            <option value="Hockey">Hockey</option>
+                            <option value="Sci">Sci</option>
+                            <option value="Tennis">Tennis</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" onclick="inserisci_annuncio()">Aggiungi Annuncio</button>
+                    </td>
+                </tr>
+            </form>
+        </table>
+        <p id="stato"></p>
+    </center>
+    <script src="script.js"></script>
+    <script>
+        const param_string = window.location.search;
+        const URL_params = new URLSearchParams(param_string);
+        var token = URL_params.get("token");
+
+        function to_home() {
+            window.location.href = "index.html?token=" + token;
+        }
+
+        async function inserisci_annuncio() {
+            document.getElementById("stato").textContent = await add(token);
+        }
+    </script>
+</body>
+
 </html>

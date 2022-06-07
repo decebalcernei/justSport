@@ -1,12 +1,19 @@
 var loggedUser = {}; // contiene dati (token incluso) dell'utente
 
 /*
- * La funzione subscribe viene chiamata ogni volta che si preme il pulsante
+ * Iscrivere l'utente all'annuncio
  */
 async function subscribe(token, id_annuncio) {
     loggedUser.token = token;
 
-    var id_utente = parseJwt(loggedUser.token).id;
+    var id_utente;
+
+    try {
+        id_utente = parseJwt(loggedUser.token).id;
+    } catch (e) {
+        console.error(e);
+        return;
+    }
 
     await fetch('../annunci/' + id_annuncio, {
             method: 'POST',
@@ -56,7 +63,6 @@ function login() {
     if (username == "" || password == "") {
         document.getElementById("conferma").innerHTML = "Non puoi lasciare i campi vuoti";
     } else {
-        document.getElementById("conferma").innerHTML = "Login effettuato";
         return fetch("../autenticazione", {
                 method: "POST",
                 headers: {
@@ -79,20 +85,20 @@ function login() {
 
 function logout(token) {
     fetch("../autenticazione", {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: token
+            })
         })
-    })
-    .then((resp) => resp.json()) // Trasforma i dati della risposta in json
-    .then(function (data) { // Data da manipolare come vogliamo
-    // rimuoviamo i dati dell'utente
-    loggedUser.token = data.token;
-    })
-    .then(() => loggedUser.token).catch(error => console.error(error));
+        .then((resp) => resp.json()) // Trasforma i dati della risposta in json
+        .then(function (data) { // Data da manipolare come vogliamo
+            // rimuoviamo i dati dell'utente
+            loggedUser.token = data.token;
+        })
+        .then(() => loggedUser.token).catch(error => console.error(error));
 }
 
 
@@ -104,7 +110,6 @@ function registrazione() {
     if (username == "" || password == "") {
         document.getElementById("conferma").innerHTML = "Non puoi lasciare i campi vuoti";
     } else {
-        document.getElementById("conferma").innerHTML = "Login effettuato";
         return fetch("../utenti", {
             method: "POST",
             headers: {
@@ -114,7 +119,7 @@ function registrazione() {
                 username: username,
                 password: password
             })
-        })
+        });
     }
 }
 
@@ -127,11 +132,13 @@ function add(token) {
 
     // prendiamo gli elementi del form
     var attrezzatura_necessaria = document.getElementById("attrezzatura_necessaria").value;
+    var min_partecipanti = document.getElementById("min_partecipanti").value;
+    var max_partecipanti = document.getElementById("max_partecipanti").value;
     var costo = document.getElementById("costo").value;
     var citta = document.getElementById("citta").value;
     var sport = document.getElementById("sport").value;
 
-    fetch('../annunci', {
+    return fetch('../annunci', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -148,10 +155,16 @@ function add(token) {
             }),
         })
         .then((resp) => resp.json()) // Trasforma i dati della risposta in json
-        .then(() => {
-            to_messaggio('annuncioAggiunto', loggedUser.token);
+        .then((data) => {
+            if (data.message == "annuncio invalido! max partecipanti e' minore di min partecipanti")
+                throw data.message;
+            else
+                to_messaggio('annuncioAggiunto', loggedUser.token);
         })
-        .catch(error => console.error(error));
+        .catch((error) => {
+            console.error(error);
+            return error;
+        });
 }
 
 /*
@@ -283,7 +296,10 @@ function detailAnnuncio(id_annuncio, token) {
 
             ul.appendChild(span);
 
-            if (data.partecipanti.some(e => e === parseJwt(token).id)) {
+            if (token == null || token == "null") {
+                iscrizione_button.textContent = "login";
+                iscrizione_button.onclick = () => window.location.href = "login.html";
+            } else if (data.partecipanti.some(e => e === parseJwt(token).id)) {
                 iscrizione_button.textContent = "disiscriviti";
                 iscrizione_button.onclick = async () => {
                     await unsubscribe(token, data._id);
@@ -383,14 +399,14 @@ function displayNomeUtente() {
     }
 }
 
-function to_messaggio(beacon, token){
+function to_messaggio(beacon, token) {
     window.location.href = "messaggio.html?beacon=" + beacon + "&token=" + token;
 }
 
-function messaggio(){
+function messaggio() {
     const param_string = window.location.search;
     const URL_params = new URLSearchParams(param_string);
-    var beacon =  URL_params.get("beacon");
+    var beacon = URL_params.get("beacon");
     const h3 = document.getElementById('messaggio');
     switch (beacon) {
         case 'annuncioAggiunto':
@@ -408,7 +424,7 @@ function messaggio(){
         default:
             h3.textContent = 'Si è verificato un errore inatteso';
             console.log('damn he is good');
-      }
+    }
 }
 
 

@@ -72,6 +72,8 @@ router.post('', (req, res) => {
         annuncio.min_partecipanti = 2;
 
     if (annuncio.min_partecipanti > annuncio.max_partecipanti) {
+        console.error("annuncio invalido!");
+        console.error(annuncio);
         res.status(400).json({
             message: "annuncio invalido! max partecipanti e' minore di min partecipanti"
         });
@@ -168,6 +170,7 @@ router.post("/:annuncioId", async (req, res) => {
             "message": "success"
         });
     } catch (err) {
+        console.error(err);
         res.status(500).json({
             message: err
         });
